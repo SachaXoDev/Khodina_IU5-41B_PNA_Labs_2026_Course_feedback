@@ -176,3 +176,105 @@ body {
     width: 420px;
     height: 45px;
 }
+
+
+/* Сетка для карточек групп */
+.groups-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.groups-grid > div {
+    flex: 0 0 calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+}
+
+/* Карточка группы */
+.group-card {
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    background: white;
+    height: 100%;
+}
+
+.group-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.group-card .card-body {
+    padding: 20px;
+}
+
+.group-card .card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Теги услуг */
+.services-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.service-tag {
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    color: #667eea;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* Цена */
+.price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Рейтинг */
+.rating {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+/* Кнопки в карточке */
+.card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.card-actions .btn {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+}
+
+/* Адаптивность */
+@media (max-width: 992px) {
+    .groups-grid > div {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .groups-grid > div {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

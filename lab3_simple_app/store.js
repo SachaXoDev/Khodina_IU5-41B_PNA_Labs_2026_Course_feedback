@@ -1,72 +1,105 @@
+// store.js
+
 class Store {
     constructor() {
-        this.feedbacks = this.getInitialData();
+        this.groups = this.getInitialData();
     }
 
     getInitialData() {
         return [
             {
                 id: 1,
-                src: "https://tse4.mm.bing.net/th/id/OIP.lAnBX3W53ZLP9dHkyuHrMQHaHa?w=1000&h=1000&rs=1&pid=ImgDetMain&o=7&rm=3",
-                title: "Егор Крид",
-                text: "Отличный курс! Материал изложен понятно и структурированно. Преподаватель всегда на связи, отвечает на вопросы. Рекомендую всем!",
-                rating: 5,
-                course: "Веб-разработка",
-                date: "15.03.2026"
+                src: "https://cdn-icons-png.flaticon.com/512/1995/1995571.png",
+                groupName: "IU5-31B",
+                specialty: "Веб-разработка",
+                description: "Помощь с дз по веб-разработке. Консультации по HTML, CSS, JavaScript",
+                services: ["Веб-разработка", "HTML/CSS", "JavaScript"],
+                price: 1500,
+                format: "Онлайн",
+                rating: 4.9,
+                students: 24,
+                teacher: "Анна Иванова",
+                contact: "@iu5_31b_help",
+                experience: "3 года",
+                startDate: "2026-04-15"
             },
             {
                 id: 2,
-                src: "https://images.genius.com/5ea20a28fe68dbc8e432dae2f92c0fe0.1000x1000x1.jpg",
-                title: "Ваня Дмитриенко",
-                text: "Курс очень помог в освоении JavaScript. Много практики, реальные примеры. Единственное - хотелось бы больше домашних заданий.",
-                rating: 4,
-                course: "JavaScript",
-                date: "14.03.2026"
+                src: "https://cdn-icons-png.flaticon.com/512/5968/5968292.png",
+                groupName: "IU5-42B",
+                specialty: "JavaScript",
+                description: "Помощь с задачами по JavaScript. Объяснение сложных тем, разбор домашних заданий",
+                services: ["JavaScript", "React", "Node.js"],
+                price: 1200,
+                format: "Онлайн",
+                rating: 4.8,
+                students: 18,
+                teacher: "Дмитрий Петров",
+                contact: "@iu5_42b_js",
+                experience: "2 года",
+                startDate: "2026-04-20"
             },
             {
                 id: 3,
-                src: "https://th.bing.com/th/id/R.0f8019b39b4fab1f00068e1162badd97?rik=GlKYFAI5Qkjq4A&pid=ImgRaw&r=0",
-                title: "Том Харди",
-                text: "Замечательный курс! Получил много полезных знаний. Особенно понравилась структура и подача материала. Спасибо преподавателю!",
-                rating: 5,
-                course: "Frontend разработка",
-                date: "13.03.2026"
+                src: "https://cdn-icons-png.flaticon.com/512/919/919825.png",
+                groupName: "IU5-53B",
+                specialty: "Node.js",
+                description: "Бэкенд разработка на Node.js. Помощь с курсовыми проектами и API",
+                services: ["Node.js", "Express", "MongoDB"],
+                price: 1800,
+                format: "Офлайн",
+                rating: 4.7,
+                students: 12,
+                teacher: "Сергей Козлов",
+                contact: "@iu5_53b_backend",
+                experience: "2.5 года",
+                startDate: "2026-05-01"
             },
             {
                 id: 4,
-                src: "https://24smi.org/public/media/celebrity/2019/08/05/zs4aokgxxq4t-biographia-irina-shejk.jpg",
-                title: "Ирина Шейк",
-                text: "Курс хороший, но некоторые темы хотелось бы разобрать подробнее. В целом, довольна, рекомендую.",
-                rating: 4,
-                course: "React",
-                date: "12.03.2026"
+                src: "https://cdn-icons-png.flaticon.com/512/1260/1260667.png",
+                groupName: "IU5-64B",
+                specialty: "React",
+                description: "Современная React разработка. Помощь с проектами и объяснение хуков",
+                services: ["React", "Redux", "Next.js"],
+                price: 2000,
+                format: "Онлайн",
+                rating: 5.0,
+                students: 20,
+                teacher: "Елена Смирнова",
+                contact: "@iu5_64b_react",
+                experience: "3 года",
+                startDate: "2026-04-10"
             },
             {
                 id: 5,
-                src: "https://media1.popsugar-assets.com/files/thumbor/8V9TZbX_9YfNnxMQDsOA6UudXgU/fit-in/1024x1024/filters:format_auto-!!-:strip_icc-!!-/2023/02/26/044/n/1922153/b67f8c1f9ca5804e_GettyImages-1469833844/i/zendaya-makeup-sag-awards.jpg",
-                title: "Зендая",
-                text: "Лучший курс по веб-разработке! Все четко, понятно, с примерами. После курса смогла устроиться на работу стажером.",
-                rating: 5,
-                course: "Полный курс веб-разработки",
-                date: "10.03.2026"
+                src: "https://cdn-icons-png.flaticon.com/512/5968/5968705.png",
+                groupName: "IU5-75B",
+                specialty: "Python",
+                description: "Python для анализа данных. Помощь с задачами по pandas, numpy",
+                services: ["Python", "Pandas", "NumPy"],
+                price: 1300,
+                format: "Онлайн",
+                rating: 4.6,
+                students: 15,
+                teacher: "Михаил Воронов",
+                contact: "@iu5_75b_python",
+                experience: "2 года",
+                startDate: "2026-04-25"
             }
         ];
     }
 
-    getFeedbacks() {
-        return this.feedbacks;
+    getGroups() {
+        return this.groups;
     }
 
-    addFeedback(feedback) {
-        this.feedbacks.push(feedback);
+    addGroup(group) {
+        this.groups.push(group);
     }
 
-    deleteFeedback(id) {
-        this.feedbacks = this.feedbacks.filter(f => f.id !== id);
-    }
-
-    updateFeedbacks(feedbacks) {
-        this.feedbacks = feedbacks;
+    deleteGroup(id) {
+        this.groups = this.groups.filter(g => g.id !== id);
     }
 }
 

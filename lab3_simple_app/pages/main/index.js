@@ -1,156 +1,194 @@
-import { FeedbackCardComponent } from "../../components/feedback-card/index.js";
-import { FeedbackDetailPage } from "../feedback-detail/index.js";
+import { GroupCardComponent } from "../../components/group-card/group-card.js";
+import { GroupDetailPage } from "../group-detail/group-detail.js";
 import { store } from "../../store.js";
 
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
         this.filterText = '';
-        this.courseFilter = '';
+        this.formatFilter = '';
     }
 
-    get feedbacksContainer() {
-        return document.getElementById('feedbacks-container');
+    get groupsContainer() {
+        return document.getElementById('groups-container');
     }
 
-    getFeedbacks() {
-        return store.getFeedbacks();
+    getGroups() {
+        return store.getGroups();
     }
 
-    getCourses() {
-        const courses = [...new Set(this.getFeedbacks().map(f => f.course))];
-        return courses;
+    getFormats() {
+        const formats = [...new Set(this.getGroups().map(g => g.format))];
+        return formats;
+    }
+
+    showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification-toast';
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-width: 400px;
+            white-space: pre-line;
+            font-family: monospace;
+            font-size: 14px;
+            border-left: 4px solid #3d3bff;
+            animation: slideInRight 0.3s ease-out;
+        `;
+        notification.innerHTML = message;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.3s';
+            setTimeout(() => notification.remove(), 300);
+        }, 4000);
     }
 
     getHTML() {
-        const courses = this.getCourses();
-        const courseOptions = courses.map(course =>
-            `<option value="${course}">${course}</option>`
+        const formats = this.getFormats();
+        const formatOptions = formats.map(format =>
+            `<option value="${format}">${format}</option>`
         ).join('');
 
-        return (
-            `
-                <div class="header">
-                    <div class="container">
-                        <h1>📝 Обратная связь по курсу</h1>
+        return `
+            <div class="header">
+                <div class="container">
+                    <h1>👥 Обратная связь по курсу</h1>
+                    <div class="header-buttons">
                         <button id="home-button" class="btn btn-home">🏠 Домой</button>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="filters">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <input type="text" id="filter-input" class="filter-input"
-                                       placeholder="🔍 Поиск по студенту..." autocomplete="off">
-                            </div>
-                            <div class="col-md-4">
-                                <select id="course-filter" class="filter-input">
-                                    <option value="">Все курсы</option>
-                                    ${courseOptions}
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <button id="add-button" class="btn btn-success w-100">+ Добавить отзыв</button>
-                            </div>
+            </div>
+            <div class="container">
+                <div class="filters">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input type="text" id="filter-input" class="filter-input"
+                                   placeholder="🔍 Поиск по названию группы..." autocomplete="off">
+                        </div>
+                        <div class="col-md-4">
+                            <select id="format-filter" class="filter-input">
+                                <option value="">Все форматы</option>
+                                ${formatOptions}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button id="add-button" class="btn btn-success w-100">+ Добавить группу</button>
                         </div>
                     </div>
-                    <div id="feedbacks-container" class="row">
-                        <!-- Здесь будут карточки отзывов -->
-                    </div>
                 </div>
-            `
-        );
+                <div id="groups-container" class="groups-grid">
+                    <!-- Здесь будут карточки групп -->
+                </div>
+            </div>
+        `;
     }
 
-    getFilteredFeedbacks() {
-        let filtered = this.getFeedbacks();
+    getFilteredGroups() {
+        let filtered = this.getGroups();
 
         if (this.filterText && this.filterText.trim() !== '') {
-            filtered = filtered.filter(feedback =>
-                feedback.title.toLowerCase().includes(this.filterText.toLowerCase())
+            filtered = filtered.filter(group =>
+                group.groupName.toLowerCase().includes(this.filterText.toLowerCase())
             );
         }
 
-        if (this.courseFilter && this.courseFilter !== '') {
-            filtered = filtered.filter(feedback =>
-                feedback.course === this.courseFilter
+        if (this.formatFilter && this.formatFilter !== '') {
+            filtered = filtered.filter(group =>
+                group.format === this.formatFilter
             );
         }
 
         return filtered;
     }
 
-    renderFeedbacks() {
-        const container = this.feedbacksContainer;
+    renderGroups() {
+        const container = this.groupsContainer;
         if (!container) return;
 
         container.innerHTML = '';
 
-        const filteredFeedbacks = this.getFilteredFeedbacks();
+        const filteredGroups = this.getFilteredGroups();
 
-        if (filteredFeedbacks.length === 0) {
+        if (filteredGroups.length === 0) {
             container.innerHTML = `
                 <div class="col-12 text-center">
-                    <div class="alert alert-info">
-                        😊 Отзывов не найдено. Добавьте первый отзыв!
+                    <div class="alert alert-info" style="border-radius: 20px;">
+                        😊 Групп не найдено. Добавьте первую группу!
                     </div>
                 </div>
             `;
             return;
         }
 
-        filteredFeedbacks.forEach((item) => {
-            const feedbackCard = new FeedbackCardComponent(container);
-            feedbackCard.render(
+        filteredGroups.forEach((item) => {
+            const groupCard = new GroupCardComponent(container);
+            groupCard.render(
                 item,
                 this.clickCard.bind(this),
-                this.deleteFeedback.bind(this)
+                this.deleteGroup.bind(this)
             );
         });
     }
 
-    addFeedback() {
-        const feedbacks = this.getFeedbacks();
-        const newId = feedbacks.length > 0
-            ? Math.max(...feedbacks.map(f => f.id)) + 1
+    addGroup() {
+        const groups = this.getGroups();
+        const newId = groups.length > 0
+            ? Math.max(...groups.map(g => g.id)) + 1
             : 1;
 
-        const newFeedback = {
+        const newGroup = {
             id: newId,
-            src: "https://img.freepik.com/premium-photo/anonymous-person-in-suit-wearing-hat-with-covered-face_955712-23964.jpg",
-            title: `Студент ${newId}`,
-            text: "Это новый отзыв о курсе. Здесь можно написать свои впечатления, пожелания и рекомендации.",
-            rating: 5,
-            course: "Веб-разработка",
-            date: new Date().toLocaleDateString('ru-RU')
+            src: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+            groupName: `Новая группа ${newId}`,
+            specialty: "Помощь с учебой",
+            description: "Оказываем помощь с лабораторными и домашними заданиями",
+            services: ["Помощь с лабами", "Консультации"],
+            price: 1000,
+            format: "Онлайн",
+            rating: 5.0,
+            students: 0,
+            teacher: "Новый куратор",
+            contact: "@new_group",
+            experience: "1 год",
+            startDate: new Date().toISOString().split('T')[0]
         };
 
-        store.addFeedback(newFeedback);
-        this.renderFeedbacks();
+        store.addGroup(newGroup);
+        this.renderGroups();
+        this.showNotification(`✅ Добавлена группа: "${newGroup.groupName}"`);
     }
 
-    deleteFeedback(id) {
-        store.deleteFeedback(parseInt(id));
-        this.renderFeedbacks();
+    deleteGroup(id) {
+        const group = this.getGroups().find(g => g.id === parseInt(id));
+        store.deleteGroup(parseInt(id));
+        this.renderGroups();
+        this.showNotification(`🗑️ Удалена группа: "${group?.groupName || id}"`);
     }
 
-    filterFeedbacks() {
+    filterGroups() {
         const filterInput = document.getElementById('filter-input');
-        const courseSelect = document.getElementById('course-filter');
+        const formatSelect = document.getElementById('format-filter');
 
         if (filterInput) {
             this.filterText = filterInput.value;
         }
-        if (courseSelect) {
-            this.courseFilter = courseSelect.value;
+        if (formatSelect) {
+            this.formatFilter = formatSelect.value;
         }
 
-        this.renderFeedbacks();
+        this.renderGroups();
     }
 
     clickCard(id) {
-        const feedbackPage = new FeedbackDetailPage(this.parent, id);
-        feedbackPage.render();
+        const groupPage = new GroupDetailPage(this.parent, id);
+        groupPage.render();
     }
 
     goHome() {
@@ -161,25 +199,25 @@ export class MainPage {
         this.parent.innerHTML = '';
         this.parent.insertAdjacentHTML('beforeend', this.getHTML());
 
-        this.renderFeedbacks();
+        this.renderGroups();
 
         const addButton = document.getElementById('add-button');
         if (addButton) {
             const newAddButton = addButton.cloneNode(true);
             addButton.parentNode.replaceChild(newAddButton, addButton);
-            newAddButton.addEventListener('click', () => this.addFeedback());
+            newAddButton.addEventListener('click', () => this.addGroup());
         }
 
         const filterInput = document.getElementById('filter-input');
         if (filterInput) {
             filterInput.value = this.filterText;
-            filterInput.addEventListener('input', () => this.filterFeedbacks());
+            filterInput.addEventListener('input', () => this.filterGroups());
         }
 
-        const courseFilter = document.getElementById('course-filter');
-        if (courseFilter) {
-            courseFilter.value = this.courseFilter;
-            courseFilter.addEventListener('change', () => this.filterFeedbacks());
+        const formatFilter = document.getElementById('format-filter');
+        if (formatFilter) {
+            formatFilter.value = this.formatFilter;
+            formatFilter.addEventListener('change', () => this.filterGroups());
         }
 
         const homeButton = document.getElementById('home-button');
