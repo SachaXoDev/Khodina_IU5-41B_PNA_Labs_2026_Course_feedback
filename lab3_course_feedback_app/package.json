@@ -1,0 +1,16 @@
+{
+  "name": "educational-services",
+  "version": "1.0.0",
+  "description": "Образовательные услуги - приложение для управления курсами",
+  "main": "main.js",
+  "scripts": {
+    "start": "live-server --port=3000",
+    "dev": "live-server --port=3000"
+  },
+  "keywords": ["education", "courses", "services"],
+  "author": "Sacha Khodina",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}
