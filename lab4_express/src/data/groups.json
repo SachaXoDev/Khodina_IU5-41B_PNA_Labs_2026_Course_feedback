@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "src": "https://cdn-icons-png.flaticon.com/512/1995/1995571.png",
+    "groupName": "IU5-31B",
+    "specialty": "Веб-разработка",
+    "description": "Помощь с дз по веб-разработке. Консультации по HTML, CSS, JavaScript",
+    "services": [
+      "Веб-разработка",
+      "HTML/CSS",
+      "JavaScript"
+    ],
+    "price": 1500,
+    "format": "Онлайн",
+    "rating": 4.9,
+    "students": 24,
+    "teacher": "Анна Иванова",
+    "contact": "@iu5_31b_help",
+    "experience": "3 года",
+    "startDate": "2026-04-15"
+  },
+  {
+    "id": 2,
+    "src": "https://cdn-icons-png.flaticon.com/512/5968/5968292.png",
+    "groupName": "IU5-42B",
+    "specialty": "JavaScript",
+    "description": "Помощь с задачами по JavaScript. Объяснение сложных тем, разбор домашних заданий",
+    "services": [
+      "JavaScript",
+      "React",
+      "Node.js"
+    ],
+    "price": 3150,
+    "format": "Онлайн",
+    "rating": 4.8,
+    "students": 10,
+    "teacher": "Владислав Михайлович",
+    "contact": "@iu5_42b_js",
+    "experience": "2 года",
+    "startDate": "2026-04-20"
+  },
+  {
+    "id": 3,
+    "src": "https://cdn-icons-png.flaticon.com/512/919/919825.png",
+    "groupName": "IU5-53B",
+    "specialty": "Node.js",
+    "description": "Бэкенд разработка на Node.js. Помощь с курсовыми проектами и API",
+    "services": [
+      "Node.js",
+      "Express",
+      "MongoDB"
+    ],
+    "price": 1800,
+    "format": "Офлайн",
+    "rating": 4.7,
+    "students": 12,
+    "teacher": "Сергей Козлов",
+    "contact": "@iu5_53b_backend",
+    "experience": "2.5 года",
+    "startDate": "2026-05-01"
+  },
+  {
+    "id": 4,
+    "src": "https://cdn-icons-png.flaticon.com/512/5968/5968705.png",
+    "groupName": "IU5-75B",
+    "specialty": "Python",
+    "description": "Python для анализа данных. Помощь с задачами по pandas, numpy",
+    "services": [
+      "Python",
+      "Pandas",
+      "NumPy"
+    ],
+    "price": 1300,
+    "format": "Онлайн",
+    "rating": 4.6,
+    "students": 15,
+    "teacher": "Михаил Воронов",
+    "contact": "@iu5_75b_python",
+    "experience": "2 года",
+    "startDate": "2026-04-25"
+  }
+]
