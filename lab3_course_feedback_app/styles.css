@@ -1,4 +1,4 @@
-/* styles.css - полные стили */
+/* styles.css - Полное соответствие ТЗ */
 
 * {
     margin: 0;
@@ -7,13 +7,14 @@
 }
 
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: white; /* БЕЛЫЙ САЙТ */
     min-height: 100vh;
     font-family: 'Graphik', 'Segoe UI', Arial, Helvetica, sans-serif;
 }
 
+/* ============ СИНИЙ ХЕДЕР (ТОТ САМЫЙ) ============ */
 .header {
-    background: rgba(255, 255, 255, 0.95);
+    background: #3d3bff; /* ТОТ САМЫЙ СИНИЙ */
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     padding: 15px 0;
     margin-bottom: 30px;
@@ -33,7 +34,7 @@ body {
 .header h1 {
     margin: 0;
     font-size: 1.5rem;
-    color: #3d3bff;
+    color: white; /* Белый текст в хедере */
 }
 
 .header-buttons {
@@ -42,7 +43,7 @@ body {
     flex-wrap: wrap;
 }
 
-/* ============ Кнопки ============ */
+/* ============ Кнопки (адаптация под синий хедер) ============ */
 .btn {
     border-radius: 25px;
     padding: 8px 20px;
@@ -59,7 +60,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: #000000;
+    background: #3d3bff;
     transform: scale(1.05);
 }
 
@@ -85,8 +86,8 @@ body {
 
 .btn-secondary {
     background: transparent;
-    border: 2px solid #ffffff;
-    color: #ffffff;
+    border: 2px solid #3d3bff;
+    color: #3d3bff;
 }
 
 .btn-secondary:hover {
@@ -96,16 +97,16 @@ body {
 }
 
 .btn-home {
-    background: #3d3bff;
-    color: white;
-    font-size: 1rem;
-    padding: 8px 20px;
+    background: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
 }
 
 .btn-home:hover {
     background: #000000;
+    border: 2px solid #000000;
+    color: #ffffff;
     transform: scale(1.05);
-    color: white;
 }
 
 .btn-outline-primary {
@@ -127,11 +128,11 @@ body {
 
 /* ============ Фильтры ============ */
 .filters {
-    background: white;
+    background: #f8f9fa;
     padding: 20px;
     border-radius: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
 .filter-input {
@@ -151,15 +152,13 @@ body {
 .filter-input:focus {
     outline: none;
     border-color: #3d3bff;
-    box-shadow: 0 0 0 3px rgba(61, 59, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
 }
 
-/* Специально для select */
 select.filter-input {
     cursor: pointer;
     appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233d3bff' stroke-width='2'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231E3A8A' stroke-width='2'><polyline points='6 9 12 15 18 9'></polyline></svg>");
     background-repeat: no-repeat;
     background-position: right 18px center;
     background-size: 16px;
@@ -180,19 +179,28 @@ select.filter-input {
     max-width: calc(33.333% - 20px);
 }
 
-/* ============ Карточки услуг ============ */
+/* ============ КАРТОЧКИ (закругленные, картинка на всю, БЕЛЫЙ ТЕКСТ НА НИХ) ============ */
 .service-card {
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 20px; /* ЗАКРУГЛЕННЫЕ */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    background: white;
+    background: #3d3bff; /* Тот самый синий фон карточки */
     height: 100%;
     overflow: hidden;
+    position: relative;
 }
 
 .service-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* КАРТИНКА НА ВСЮ ШИРИНУ */
+.service-card .card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
 }
 
 .service-card .card-body {
@@ -202,61 +210,63 @@ select.filter-input {
 .service-card .card-title {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #3d3bff;
+    color: white; /* БЕЛЫЙ ТЕКСТ */
     margin-bottom: 0;
 }
 
 .service-card .card-text {
-    color: #666;
+    color: rgba(255, 255, 255, 0.85); /* Белый с легкой прозрачностью для читаемости */
     font-size: 0.9rem;
     line-height: 1.4;
     margin: 10px 0;
 }
 
 .service-card .rating {
-    color: #ffc107;
+    color: #fbff00;
     font-size: 0.9rem;
 }
 
 .service-card .price {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #28a745;
+    color: #5dc927;
 }
 
-/* ============ Детальная карточка ============ */
+/* ============ Детальная карточка (тоже белый текст на синем) ============ */
 .service-detail-card {
     border-radius: 24px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    background: white;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    background: #3d3bff;
     overflow: hidden;
 }
 
 .service-detail-card .card-body {
     padding: 30px;
+    color: white;
 }
 
 .service-detail-card h2 {
-    color: #3d3bff;
+    color: white;
     font-size: 1.8rem;
 }
 
 .service-detail-card h5 {
-    color: #333;
+    color: #5dc927;
     margin-bottom: 15px;
     padding-bottom: 10px;
-    border-bottom: 2px solid #3d3bff;
+    border-bottom: 2px solid #5dc927;
     display: inline-block;
 }
 
 .service-detail-card .price {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #28a745;
+    color: #5dc927;
 }
 
 .service-detail-card table {
     width: 100%;
+    color: white;
 }
 
 .service-detail-card table td {
@@ -276,11 +286,13 @@ select.filter-input {
 }
 
 .badge.bg-success {
-    background: #28a745;
+    background: #5dc927;
+    color: white;
 }
 
 .badge.bg-secondary {
     background: #6c757d;
+    color: white;
 }
 
 /* ============ Адаптивность ============ */
@@ -344,7 +356,7 @@ select.filter-input {
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ec 100%);
+    background: #f5f5f7;
 }
 
 #model-container canvas {
@@ -353,7 +365,6 @@ select.filter-input {
     display: block;
 }
 
-/* Стили для карточки с 3D */
 .card-header {
     border-bottom: none;
     padding: 15px 20px;
@@ -365,11 +376,11 @@ select.filter-input {
 }
 
 .card-footer {
-    border-top: 1px solid #e9ecef;
+    border-top: 1px solid rgba(255,255,255,0.1);
     padding: 12px 20px;
+    background: rgba(0,0,0,0.1);
 }
 
-/* Кнопки управления 3D */
 .btn-group .btn-outline-primary {
     border-color: #3d3bff;
     color: #3d3bff;
@@ -381,12 +392,12 @@ select.filter-input {
 }
 
 .btn-outline-success {
-    border-color: #28a745;
-    color: #28a745;
+    border-color: #5dc927;
+    color: #5dc927;
 }
 
 .btn-outline-success:hover {
-    background: #28a745;
+    background: #5dc927;
     color: white;
 }
 
@@ -395,7 +406,6 @@ select.filter-input {
     color: white;
 }
 
-/* Адаптивность для 3D */
 @media (max-width: 768px) {
     #model-container {
         height: 300px !important;
@@ -424,8 +434,8 @@ select.filter-input {
 }
 
 .service-tag {
-    background: #e0e7ff;
-    color: #3d3bff;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 0.7rem;
@@ -435,7 +445,8 @@ select.filter-input {
 .group-card .price {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #28a745;
+    color: #5dc927
+    ;
 }
 
 .groups-grid {
@@ -465,8 +476,6 @@ select.filter-input {
     }
 }
 
-
-/* Кнопка сравнения в карточке */
 .compare-toggle-btn {
     transition: all 0.3s ease;
 }
@@ -489,9 +498,8 @@ select.filter-input {
     transform: scale(1.05);
 }
 
-/* Блок сравнения */
 .compare-section {
-    background: #f8f9fa;
+    background: rgba(255,255,255,0.1);
     border-radius: 12px;
     padding: 12px;
     margin-top: 15px;
@@ -509,19 +517,17 @@ select.filter-input {
     }
 }
 
-/* Метка для выбора группы */
 .compare-label {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #495057;
+    color: rgba(255,255,255,0.9);
     margin-bottom: 8px;
     display: block;
 }
 
-/* Выпадающий список для выбора группы */
 .compare-select {
     border-radius: 8px;
-    border: 2px solid #dee2e6;
+    border: 2px solid rgba(255,255,255,0.3);
     padding: 8px 12px;
     font-size: 0.85rem;
     width: 100%;
@@ -530,20 +536,13 @@ select.filter-input {
     cursor: pointer;
 }
 
-
 .compare-select:hover {
-    background: transparent;
     border: 2px solid #3d3bff;
-    color: #3d3bff;
 }
 
 .compare-select:focus {
-    background: transparent;
     border: 2px solid #3d3bff;
-    color: #3d3bff;
 }
-
-/* Кнопка сравнения внутри блока */
 
 .btn-compare {
     background: transparent;
@@ -560,7 +559,6 @@ select.filter-input {
     color: #3d3bff;
 }
 
-/* Результат сравнения */
 .compare-result {
     font-size: 0.85rem;
 }
@@ -599,8 +597,6 @@ select.filter-input {
     font-size: 0.8rem;
 }
 
-
-/* Анимация для появления результата */
 .compare-result .alert {
     animation: fadeInUp 0.3s ease-out;
 }
@@ -616,7 +612,6 @@ select.filter-input {
     }
 }
 
-/* Стили для активного состояния */
 .compare-toggle-btn.active {
     background: transparent;
     border: 2px solid #3d3bff;
@@ -626,7 +621,6 @@ select.filter-input {
     transition: all 0.3s ease;
 }
 
-/* Дополнительные улучшения для карточек */
 .group-card {
     transition: transform 0.2s, box-shadow 0.2s;
     height: 100%;
@@ -648,7 +642,6 @@ select.filter-input {
     padding: 4px 10px;
 }
 
-/* Стили для тегов услуг */
 .services-tags {
     display: flex;
     flex-wrap: wrap;
@@ -657,8 +650,8 @@ select.filter-input {
 }
 
 .service-tag {
-    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
-    color: #3d3bff;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
     padding: 3px 10px;
     border-radius: 15px;
     font-size: 0.7rem;
@@ -668,17 +661,15 @@ select.filter-input {
 
 .service-tag:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%);
+    background: rgba(255, 255, 255, 0.3);
 }
 
-/* Цена в карточке */
 .group-card .price {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #28a745;
+    color: #5dc927;
 }
 
-/* Сетка групп */
 .groups-grid {
     display: flex;
     flex-wrap: wrap;
@@ -692,7 +683,6 @@ select.filter-input {
     max-width: calc(33.333% - 20px);
 }
 
-/* Адаптивность сетки */
 @media (max-width: 992px) {
     .groups-grid > div {
         flex: 0 0 calc(50% - 20px);
@@ -711,7 +701,6 @@ select.filter-input {
     }
 }
 
-/* Стили для уведомлений */
 .notification-toast {
     position: fixed;
     top: 20px;
@@ -745,14 +734,13 @@ select.filter-input {
     transition: opacity 0.3s ease-out;
 }
 
-/* Улучшение скроллбара */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #3d3bff;
+    background: #e0e0e0;
     border-radius: 10px;
 }
 
@@ -762,10 +750,9 @@ select.filter-input {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #000000;
+    background: #0F2A6B;
 }
 
-/* Стили для демо merge */
 .merge-demo-container {
     animation: fadeIn 0.3s ease-out;
 }
@@ -780,7 +767,7 @@ select.filter-input {
 
 .merge-textarea:focus {
     border-color: #3d3bff;
-    box-shadow: 0 0 0 0.2rem rgba(61, 59, 255, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
 }
 
 .merge-result-pre {
@@ -808,19 +795,6 @@ select.filter-input {
     border-left: 3px solid #3d3bff;
 }
 
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(100px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-
-/* Стили для модального окна merge */
 .modal-content {
     border-radius: 20px;
     border: none;
@@ -867,7 +841,7 @@ select.filter-input {
 .modal-body textarea:focus {
     border-color: #3d3bff;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(61, 59, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
 }
 
 #mergeResult {
@@ -916,7 +890,7 @@ select.filter-input {
 }
 
 #executeMerge:hover {
-    background: #000000;
+    background: #0F2A6B;
     transform: scale(1.05);
 }
 
@@ -942,7 +916,6 @@ select.filter-input {
     transform: scale(1);
 }
 
-/* Скроллбар для результата */
 #mergeResult::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -959,10 +932,9 @@ select.filter-input {
 }
 
 #mergeResult::-webkit-scrollbar-thumb:hover {
-    background: #000000;
+    background: #0F2A6B;
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
     .modal-dialog {
         margin: 10px;
@@ -977,8 +949,6 @@ select.filter-input {
     }
 }
 
-
-/* Минимальные стили для кнопки Merge в карточке */
 .merge-toggle-btn {
     background: transparent;
     border: 2px solid #3d3bff;
@@ -995,7 +965,6 @@ select.filter-input {
     transform: scale(1.05);
 }
 
-/* Стили для активного состояния */
 .merge-toggle-btn.btn-success {
     background: transparent;
     border: 2px solid #3d3bff;
@@ -1012,9 +981,8 @@ select.filter-input {
     transform: scale(1.05);
 }
 
-/* Стили для секции Merge */
 .merge-section {
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid rgba(255,255,255,0.2);
     padding-top: 12px;
     margin-top: 12px;
 }
@@ -1025,5 +993,5 @@ select.filter-input {
 }
 
 .merge-section .btn-success:hover {
-    background: #000000;
+    background: #0F2A6B;
 }
