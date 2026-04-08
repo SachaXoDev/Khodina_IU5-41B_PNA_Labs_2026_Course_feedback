@@ -102,7 +102,7 @@ export class GroupDetailComponent {
                                 </div>
 
                                 <div class="alert alert-info mt-3">
-                                    <strong>📢 Как связаться:</strong> Напишите в Telegram: ${data.contact} для получения консультации!
+                                    <strong>Как связаться:</strong> Напишите в Telegram: ${data.contact} для получения консультации!
                                 </div>
                             </div>
                         </div>

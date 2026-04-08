@@ -52,8 +52,8 @@ export class GroupDetailPage {
         return `
             <div class="header">
                 <div class="container">
-                    <h1>📖 Детали группы помощи</h1>
-                    <button id="home-button" class="btn btn-home">🏠 Домой</button>
+                    <h1>Детали групп</h1>
+                    <button id="home-button" class="btn btn-home">Домой</button>
                 </div>
             </div>
             <div class="container mt-4">
@@ -61,7 +61,7 @@ export class GroupDetailPage {
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header bg-white">
-                                <h5 class="mb-0">🎨 3D Превью</h5>
+                                <h5 class="mb-0">3D Превью</h5>
                             </div>
                             <div class="card-body p-0">
                                 <div id="model-container" style="height: 400px; background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ec 100%); border-radius: 12px;"></div>
