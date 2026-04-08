@@ -12,7 +12,6 @@ body {
     font-family: 'Graphik', 'Segoe UI', Arial, Helvetica, sans-serif;
 }
 
-/* ============ Хедер ============ */
 .header {
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -417,7 +416,6 @@ select.filter-input {
     }
 }
 
-/* Добавьте в styles.css */
 .services-tags {
     display: flex;
     flex-wrap: wrap;
@@ -821,7 +819,6 @@ select.filter-input {
     }
 }
 
-/* Добавьте это в конец вашего styles.css */
 
 /* Стили для модального окна merge */
 .modal-content {
@@ -980,15 +977,53 @@ select.filter-input {
     }
 }
 
-#merge-demo-button {
+
+/* Минимальные стили для кнопки Merge в карточке */
+.merge-toggle-btn {
     background: transparent;
     border: 2px solid #3d3bff;
     color: #3d3bff;
-    padding: 8px 20px;
+    padding: 4px 10px;
     border-radius: 25px;
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
 }
 
-#merge-demo-button:hover {
+.merge-toggle-btn:hover {
     background: #3d3bff;
     color: white;
+    transform: scale(1.05);
+}
+
+/* Стили для активного состояния */
+.merge-toggle-btn.btn-success {
+    background: transparent;
+    border: 2px solid #3d3bff;
+    color: #3d3bff;
+    padding: 4px 10px;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.merge-toggle-btn.btn-success:hover {
+    background: #3d3bff;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Стили для секции Merge */
+.merge-section {
+    border-top: 1px solid #dee2e6;
+    padding-top: 12px;
+    margin-top: 12px;
+}
+
+.merge-section .btn-success {
+    background: #3d3bff;
+    border: none;
+}
+
+.merge-section .btn-success:hover {
+    background: #000000;
 }

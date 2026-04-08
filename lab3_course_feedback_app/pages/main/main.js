@@ -19,7 +19,7 @@ export class MainPage {
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">🔄 Функция merge</h5>
+                            <h5 class="modal-title">Функция merge</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
@@ -49,7 +49,7 @@ export class MainPage {
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" id="addAsGroup" checked>
                                 <label class="form-check-label" for="addAsGroup">
-                                    ✅ Добавить результат как новую группу
+                                    Добавить результат как новую группу
                                 </label>
                             </div>
 
@@ -59,7 +59,7 @@ export class MainPage {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="executeMerge">🔄 Выполнить merge</button>
+                            <button type="button" class="btn btn-primary" id="executeMerge">Выполнить merge</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                         </div>
                     </div>
@@ -73,7 +73,7 @@ export class MainPage {
 
         const addGroupFromMerge = (result) => {
             if (!result || Object.keys(result).length === 0) {
-                this.showNotification('❌ Нет данных для создания группы!');
+                this.showNotification('Нет данных для создания группы!');
                 return false;
             }
 
@@ -99,7 +99,7 @@ export class MainPage {
 
             store.addGroup(newGroup);
             this.renderGroups();
-            this.showNotification(`✅ Новая группа создана через merge: "${newGroup.groupName}"`);
+            this.showNotification(`Новая группа создана через merge: "${newGroup.groupName}"`);
             return true;
         };
 
@@ -184,8 +184,8 @@ export class MainPage {
     getHTML() {
         const formats = [
             { value: '', label: 'Все форматы' },
-            { value: 'Онлайн', label: '💻 Онлайн' },
-            { value: 'Офлайн', label: '🏢 Офлайн' }
+            { value: 'Онлайн', label: 'Онлайн' },
+            { value: 'Офлайн', label: 'Офлайн' }
         ];
         const formatOptions = formats.map(f =>
             `<option value="${f.value}">${f.label}</option>`
@@ -196,8 +196,7 @@ export class MainPage {
                 <div class="container">
                     <h1>👥 Обратная связь по курсу</h1>
                     <div class="header-buttons">
-                        <button id="merge-demo-button" class="btn btn-info">🔄 Merge</button>
-                        <button id="home-button" class="btn btn-home">🏠 Домой</button>
+                        <button id="home-button" class="btn btn-home">Домой</button>
                     </div>
                 </div>
             </div>
@@ -247,7 +246,7 @@ export class MainPage {
         if (filteredGroups.length === 0) {
             container.innerHTML = `
                 <div class="col-12 text-center">
-                    <div class="alert alert-info">😊 Групп не найдено. Добавьте первую группу!</div>
+                    <div class="alert alert-info">Групп не найдено. Добавьте первую группу!</div>
                 </div>
             `;
             return;
@@ -257,7 +256,12 @@ export class MainPage {
         do {
             const group = filteredGroups[i];
             const groupCard = new GroupCardComponent(container);
-            groupCard.render(group, this.clickCard.bind(this), this.deleteGroup.bind(this));
+            groupCard.render(
+                group,
+                this.clickCard.bind(this),
+                this.deleteGroup.bind(this),
+                this.renderGroups.bind(this)
+            );
             i++;
         } while (i < filteredGroups.length);
     }
@@ -267,30 +271,30 @@ export class MainPage {
         const newId = groups.length > 0 ? Math.max(...groups.map(g => g.id)) + 1 : 1;
         const newGroup = {
             id: newId,
-            src: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-            groupName: `Новая группа ${newId}`,
-            specialty: "Помощь с учебой",
-            description: "Оказываем помощь с лабораторными и домашними заданиями",
-            services: ["Помощь с лабами", "Консультации"],
-            price: 1000,
-            format: "Онлайн",
-            rating: 5.0,
-            students: 0,
-            teacher: "Новый куратор",
-            contact: "@new_group",
-            experience: "1 год",
-            startDate: new Date().toISOString().split('T')[0]
+            src: "https://cdn-icons-png.flaticon.com/512/1995/1995571.png",
+                groupName: "IU5-31B(копия)",
+                specialty: "Веб-разработка",
+                description: "Помощь с дз по веб-разработке. Консультации по HTML, CSS, JavaScript",
+                services: ["Веб-разработка", "HTML/CSS", "JavaScript"],
+                price: 1500,
+                format: "Онлайн",
+                rating: 4.9,
+                students: 24,
+                teacher: "Анна Иванова",
+                contact: "@iu5_31b_help",
+                experience: "3 года",
+                startDate: "2026-04-15"
         };
         store.addGroup(newGroup);
         this.renderGroups();
-        this.showNotification(`✅ Добавлена группа: "${newGroup.groupName}"`);
+        this.showNotification(`Добавлена группа: "${newGroup.groupName}"`);
     }
 
     deleteGroup(id) {
         const group = store.getGroups().find(g => g.id === parseInt(id));
         store.deleteGroup(parseInt(id));
         this.renderGroups();
-        this.showNotification(`🗑️ Удалена группа: "${group?.groupName || id}"`);
+        this.showNotification(`Удалена группа: "${group?.groupName || id}"`);
     }
 
     filterGroups() {
