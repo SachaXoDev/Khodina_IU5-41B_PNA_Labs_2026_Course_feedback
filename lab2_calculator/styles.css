@@ -1,112 +1,269 @@
+/* styles.css - Полное соответствие ТЗ */
 
-/* опишем базовый стиль кнопки калькулятора */
-
-.my-btn {
-    margin-right: 8px;           /* ИЗМЕНЕНО: было 5px, увеличила отступ для воздуха */
-    margin-top: 8px;             /* ИЗМЕНЕНО: было 5px, увеличила отступ для воздуха */
-    width: 50px;                 /* задаем ширину кнопки */
-    height: 50px;                /* задаем высоту кнопки */
-    border-radius: 16px;         /* ИЗМЕНЕНО: было 50% (круглые), стало 16px (скругленные прямоугольники) */
-    border: none;                /* отключаем обводку */
-    background: #ffffff;         /* ИЗМЕНЕНО: был темно-серый (#515151), стал белый фон */
-    color: #000000;              /* ИЗМЕНЕНО: был белый текст, стал черный */
-    font-size: 1.5rem;           /* увеличим размер шрифта */
-    font-family: 'Graphik', Arial, Helvetica, sans-serif; /* ИЗМЕНЕНО: добавилf Graphik как основной шрифт */
-    cursor: pointer;             /* при наведении на кнопку курсор будет изменен
-                                    со стрелки на 'указательный палец' */
-    user-select: none;           /* отключаем возможность выделить текст внутри кнопки */
-  }
-
-  /* hover - это состояние элемента, когда на него наведен курсор */
-  .my-btn:hover {
-    background: #000000;         /* ИЗМЕНЕНО: был darkgray, стал светло-серый */
-    color: #ffffff;              /* ДОБАВЛЕНО */
-  }
-
-  /* active - это состояние активации элемента. В случае кнопки - нажатие на нее */
-  .my-btn:active {
-    filter: brightness(130%);                /* ИЗМЕНЕНО: убрал эффект яркости (был brightness(130%)) */
-  }
-
-  /* селектор для кнопок первостепенных операций */
-  .my-btn.primary {
-    background: #3d3bff;         /* ИЗМЕНЕНО: был оранжевый (#ff9801), стал фирменный синий */
-    color: #ffffff;              /* ДОБАВЛЕНО */
-  }
-
-  /* HOVER ДЛЯ СИНИХ КНОПОК */
-  .my-btn.primary:hover {
-    background: #000000;         /* черный фон */
-    color: #ffffff;              /* белый текст */
-  }
-
-  /* ACTIVE ДЛЯ СИНИХ КНОПОК ДОБАВЛЕНО */
-  .my-btn.primary:active {
-    filter: brightness(130%);
-  }
-
-  /* селектор для кнопок второстепенных операций */
-  .my-btn.secondary {
-    background: transparent;         /* ИЗМЕНЕНО: был серый (#a6a6a6), стал светло-серый */
-    border: 2px solid #ffffff;   /* ДОБАВЛЕНО: белая рамка */
-    color: #ffffff;              /* ИЗМЕНЕНО: белый текст (чтобы было видно на синем фоне) */
-  }
-
-  /* HOVER ДЛЯ ВТОРОСТЕПЕННЫХ КНОПОК ДОБАВЛЕНО  */
-  .my-btn.secondary:hover {
-    background: #3d3bff;         /* становятся синими */
-    border-color: #3d3bff;       /* рамка тоже синяя */
-    color: #ffffff;
-  }
-
-  /* ACTIVE ДЛЯ ВТОРОСТЕПЕННЫХ КНОПОК ДОБАВЛЕНО */
-  .my-btn.secondary:active {
-    filter: brightness(130%);
-  }
-
-  /* селектор для кнопки расчета выражения (=) */
-  .my-btn.execute {
-    width: 50px;          /* сделаем кнопку шире других */
-    border-radius: 16px;         /* ИЗМЕНЕНО: было 34px, теперь 16px как у всех кнопок */
-  }
-
-  /* HOVER ДЛЯ КНОПКИ РАВНО ДОБАВЛЕНО */
-  .my-btn.execute:hover {
-    background: #000000;         /* черная как primary */
-    color: #ffffff;
-  }
-
-  /* ACTIVE ДЛЯ КНОПКИ РАВНО ДОБАВЛЕНО */
-  .my-btn.execute:active {
-    filter: brightness(130%);
-  }
-
-  /* селектор для поля вывода результата */
-  .result {
-    width: 220px;
-    height: 50px;
-    margin-bottom: 20px;
-    padding-right: 16px;
-    border-radius: 8px;
-    background: #f5f5f5;         /* ИЗМЕНЕНО: был темно-серый (rgb(73,73,73)), стал светло-серый */
-    text-align: right;           /* примагнитим текст к правой стороне */
-    color: #000000;              /* ИЗМЕНЕНО: был белый текст, стал черный */
-    font-size: 1.5rem;
-    font-family: 'Graphik', Arial, Helvetica, sans-serif; /* ИЗМЕНЕНО: добавила Graphik */
-  }
-
-  .calculator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    background: #6b92ff;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+body {
+  background: white;
+  min-height: 100vh;
+  font-family: 'Graphik', 'Segoe UI', Arial, Helvetica, sans-serif;
+}
+
+/* ============ СИНИЙ ХЕДЕР ============ */
+.header {
+  background: #3d3bff;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+  font-weight: 600;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border-radius: 25px;
+  padding: 8px 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background: white;
+  color: #3d3bff;
+}
+
+.btn-primary:hover {
+  background: #000000;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* ============ КАЛЬКУЛЯТОР ============ */
+.calculator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px);
+  background: white;
+  padding: 40px 20px;
+}
+
+.calculator_body {
+  background: white;
+  width: fit-content;
+  padding: 30px;
+  border-radius: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+/* Сетка кнопок */
+.buttons-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.buttons-row {
+  display: flex;
+  gap: 0;
+  justify-content: center;
+}
+
+/* Базовый стиль кнопки */
+.my-btn {
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 75px;
+  height: 75px;
+  border-radius: 20px;
+  border: none;
+  background: #f5f5f5;
+  color: #3d3bff;
+  font-size: 1.8rem;
+  font-family: 'Graphik', 'Segoe UI', Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-weight: 500;
+}
+
+/* Убираем правый отступ у последней кнопки в ряду */
+.buttons-row .my-btn:last-child {
+  margin-right: 0;
+}
+
+/* hover */
+.my-btn:hover {
+  background: #3d3bff;
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(61, 59, 255, 0.3);
+}
+
+/* active */
+.my-btn:active {
+  transform: translateY(0);
+  filter: brightness(90%);
+}
+
+/* Цифры */
+.my-btn.primary {
+  background: #f0f0f0;
+  color: #3d3bff;
+  font-weight: 600;
+}
+
+.my-btn.primary:hover {
+  background: #3d3bff;
+  color: #ffffff;
+}
+
+/* Операции */
+.my-btn.secondary {
+  background: #3d3bff;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.my-btn.secondary:hover {
+  background: #2a28cc;
+}
+
+/* Кнопка C (очистка) */
+.my-btn.clear {
+  background: #dc3545;
+  color: white;
+}
+
+.my-btn.clear:hover {
+  background: #bb2d3b;
+}
+
+/* Кнопка = */
+.my-btn.execute {
+  background: #28a745;
+  color: white;
+  font-weight: bold;
+}
+
+.my-btn.execute:hover {
+  background: #1e7e34;
+}
+
+/* Поле результата */
+.result {
+  width: 100%;
+  min-width: 330px;
+  height: 85px;
+  margin-bottom: 25px;
+  padding: 0 20px;
+  border-radius: 20px;
+  background: #f8f9fa;
+  text-align: right;
+  color: #3d3bff;
+  font-size: 2.2rem;
+  font-weight: 600;
+  font-family: 'Graphik', 'Segoe UI', Arial, Helvetica, sans-serif;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+  line-height: 85px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.result:focus {
+  outline: none;
+  border-color: #3d3bff;
+  box-shadow: 0 0 0 3px rgba(61, 59, 255, 0.1);
+}
+
+/* Адаптивность */
+@media (max-width: 550px) {
   .calculator_body {
-    background-color:  #82a4ff;
-    width: fit-content;
-    padding: 10px;
-    border-radius: 10px;
+      padding: 20px;
   }
+
+  .my-btn {
+      width: 60px;
+      height: 60px;
+      font-size: 1.5rem;
+      margin-right: 8px;
+      margin-top: 8px;
+  }
+
+  .result {
+      min-width: 264px;
+      height: 70px;
+      font-size: 1.8rem;
+      line-height: 70px;
+  }
+
+  .header .container {
+      flex-direction: row;
+      justify-content: space-between;
+  }
+}
+
+@media (max-width: 450px) {
+  .my-btn {
+      width: 55px;
+      height: 55px;
+      font-size: 1.3rem;
+      margin-right: 6px;
+      margin-top: 6px;
+  }
+
+  .result {
+      min-width: 238px;
+      height: 60px;
+      font-size: 1.5rem;
+      line-height: 60px;
+  }
+}
+
+/* Анимация */
+@keyframes resultPop {
+  from {
+      transform: scale(0.95);
+      opacity: 0;
+  }
+  to {
+      transform: scale(1);
+      opacity: 1;
+  }
+}
+
+.result {
+  animation: resultPop 0.2s ease-out;
+}
