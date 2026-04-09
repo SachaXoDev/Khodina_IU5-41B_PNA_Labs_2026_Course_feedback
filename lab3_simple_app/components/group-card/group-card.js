@@ -45,11 +45,11 @@ export class GroupCardComponent {
                                 <small class="text-muted d-block">${data.students} студентов</small>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-outline-primary btn-sm copy-btn" data-id="${data.id}">
-                                    📋 Копировать
+                                <button class="btn btn-outline-primary btn-sm view-btn" data-id="${data.id}">
+                                    Подробнее
                                 </button>
                                 <button class="btn btn-danger btn-sm delete-btn" data-id="${data.id}">
-                                    🗑️ Удалить
+                                    Удалить
                                 </button>
                             </div>
                         </div>
@@ -86,9 +86,10 @@ export class GroupCardComponent {
         }, 3000);
     }
 
-    addListeners(data, onDelete, onUpdate) {
+    addListeners(data, onDelete, onUpdate, onView) {
         const deleteBtn = document.querySelector(`.delete-btn[data-id="${data.id}"]`);
         const copyBtn = document.querySelector(`.copy-btn[data-id="${data.id}"]`);
+        const viewBtn = document.querySelector(`.view-btn[data-id="${data.id}"]`);
 
         if (deleteBtn) {
             deleteBtn.addEventListener("click", () => onDelete(data.id));
@@ -97,11 +98,15 @@ export class GroupCardComponent {
         if (copyBtn) {
             copyBtn.addEventListener("click", () => this.copyGroup(data.id, onUpdate));
         }
+
+        if (viewBtn && onView) {
+            viewBtn.addEventListener("click", () => onView(data.id));
+        }
     }
 
-    render(data, onDelete, onUpdate) {
+    render(data, onDelete, onUpdate, onView) {
         const html = this.getHTML(data);
         this.parent.insertAdjacentHTML('beforeend', html);
-        this.addListeners(data, onDelete, onUpdate);
+        this.addListeners(data, onDelete, onUpdate, onView);
     }
 }
