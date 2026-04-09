@@ -1,5 +1,3 @@
-// store.js
-
 class Store {
     constructor() {
         this.groups = this.getInitialData();

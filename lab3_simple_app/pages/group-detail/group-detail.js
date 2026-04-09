@@ -1,15 +1,21 @@
+
 import { GroupDetailComponent } from "../../components/group-detail/group-detail.js";
-import { MainPage } from "../main/index.js";
+import { MainPage } from "../main/main.js";
 import { store } from "../../store.js";
 
 export class GroupDetailPage {
     constructor(parent, id) {
         this.parent = parent;
         this.id = parseInt(id);
+        this.threeDModel = null;
     }
 
     get groupContainer() {
         return document.getElementById('group-container');
+    }
+
+    get modelContainer() {
+        return document.getElementById('model-container');
     }
 
     getData() {
@@ -20,6 +26,7 @@ export class GroupDetailPage {
             groupName: "Группа не найдена",
             description: "Информация не найдена",
             price: 0,
+            duration: "-",
             format: "-",
             rating: 0,
             students: 0,
@@ -34,13 +41,15 @@ export class GroupDetailPage {
         return `
             <div class="header">
                 <div class="container">
-                    <h1>📖 Детали группы помощи</h1>
+                    <h1>Детали группы</h1>
                     <button id="home-button" class="btn btn-home">🏠 Домой</button>
                 </div>
             </div>
             <div class="container mt-4">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-6">
+                        <div class="card">
+                    <div class="col-md-6">
                         <div id="group-container"></div>
                     </div>
                 </div>
@@ -53,29 +62,17 @@ export class GroupDetailPage {
         `;
     }
 
-    clickBack() {
-        new MainPage(this.parent).render();
-    }
-
     goHome() {
+        if (this.threeDModel) this.threeDModel.dispose();
         new MainPage(this.parent).render();
     }
 
-    render() {
+    async render() {
         this.parent.innerHTML = '';
         this.parent.insertAdjacentHTML('beforeend', this.getHTML());
-
         const data = this.getData();
         new GroupDetailComponent(this.groupContainer).render(data);
-
-        const backButton = document.getElementById('back-button');
-        if (backButton) {
-            backButton.addEventListener('click', () => this.clickBack());
-        }
-
-        const homeButton = document.getElementById('home-button');
-        if (homeButton) {
-            homeButton.addEventListener('click', () => this.goHome());
-        }
+        document.getElementById('back-button')?.addEventListener('click', () => this.clickBack());
+        document.getElementById('home-button')?.addEventListener('click', () => this.goHome());
     }
 }

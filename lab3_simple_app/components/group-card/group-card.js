@@ -42,14 +42,14 @@ export class GroupCardComponent {
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <span class="price">${data.price} ₽/час</span>
-                                <small class="text-muted d-block">👥 ${data.students} студентов</small>
+                                <small class="text-muted d-block">${data.students} студентов</small>
                             </div>
                             <div class="card-actions">
-                                <button class="btn btn-primary btn-sm view-btn" data-id="${data.id}">
-                                    Подробнее
+                                <button class="btn btn-outline-primary btn-sm copy-btn" data-id="${data.id}">
+                                    📋 Копировать
                                 </button>
                                 <button class="btn btn-danger btn-sm delete-btn" data-id="${data.id}">
-                                    Удалить
+                                    🗑️ Удалить
                                 </button>
                             </div>
                         </div>
@@ -59,21 +59,49 @@ export class GroupCardComponent {
         `;
     }
 
-    addListeners(data, onView, onDelete) {
-        const viewBtn = document.querySelector(`.view-btn[data-id="${data.id}"]`);
-        const deleteBtn = document.querySelector(`.delete-btn[data-id="${data.id}"]`);
+    copyGroup(id, onUpdate) {
+        const groups = store.getGroups();
+        const originalGroup = groups.find(g => g.id === parseInt(id));
 
-        if (viewBtn) {
-            viewBtn.addEventListener("click", () => onView(data.id));
-        }
-        if (deleteBtn) {
-            deleteBtn.addEventListener("click", () => onDelete(data.id));
+        if (originalGroup) {
+            const newId = Math.max(...groups.map(g => g.id)) + 1;
+            const copiedGroup = {
+                ...originalGroup,
+                id: newId,
+                groupName: `${originalGroup.groupName} (копия)`
+            };
+            store.addGroup(copiedGroup);
+            onUpdate();
+            this.showNotification(`✅ Группа "${originalGroup.groupName}" скопирована`);
         }
     }
 
-    render(data, onView, onDelete) {
+    showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification-toast';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    addListeners(data, onDelete, onUpdate) {
+        const deleteBtn = document.querySelector(`.delete-btn[data-id="${data.id}"]`);
+        const copyBtn = document.querySelector(`.copy-btn[data-id="${data.id}"]`);
+
+        if (deleteBtn) {
+            deleteBtn.addEventListener("click", () => onDelete(data.id));
+        }
+
+        if (copyBtn) {
+            copyBtn.addEventListener("click", () => this.copyGroup(data.id, onUpdate));
+        }
+    }
+
+    render(data, onDelete, onUpdate) {
         const html = this.getHTML(data);
         this.parent.insertAdjacentHTML('beforeend', html);
-        this.addListeners(data, onView, onDelete);
+        this.addListeners(data, onDelete, onUpdate);
     }
 }
