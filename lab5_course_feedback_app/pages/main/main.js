@@ -1,12 +1,14 @@
 import { GroupCardComponent } from "../../components/studentsgroup-card/studentsgroup-card.js";
 import { GroupDetailPage } from "../studentsgroup-detail/studentsgroup-detail.js";
-import { store } from "../../store.js";
+import { ajax } from "../../modules/ajax.js";
+import { stockUrls } from "../../modules/stockUrls.js";
 
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
         this.filterText = '';
         this.formatFilter = '';
+        this.allGroups = [];
     }
 
     get groupsContainer() {
@@ -63,7 +65,7 @@ export class MainPage {
             <div class="container">
                 <div class="filters">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <input type="text" id="filter-input" class="filter-input"
                                    placeholder="🔍 Поиск по названию группы..." autocomplete="off">
                         </div>
@@ -72,41 +74,69 @@ export class MainPage {
                                 ${formatOptions}
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <button id="add-button" class="btn btn-success w-100">+ Добавить</button>
                         </div>
                     </div>
                 </div>
                 <div id="groups-container" class="groups-grid">
-                    <!-- Карточки групп будут здесь -->
+                    <div class="text-center p-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Загрузка...</span>
+                        </div>
+                        <p class="mt-2">Загрузка групп...</p>
+                    </div>
                 </div>
             </div>
         `;
     }
 
+    // Получение данных с сервера
+    getData() {
+        ajax.get(stockUrls.getGroups(), (data, status) => {
+            if (status === 200 && data && Array.isArray(data)) {
+                this.allGroups = data;
+                this.renderGroups();
+            } else {
+                this.showNotification('Ошибка загрузки групп!', true);
+                this.groupsContainer.innerHTML = `
+                    <div class="col-12 text-center">
+                        <div class="alert alert-danger">❌ Ошибка загрузки данных с сервера</div>
+                    </div>
+                `;
+            }
+        });
+    }
+
+    // Фильтрация групп
     getFilteredGroups() {
-        let filtered = store.getGroups();
+        let filtered = [...this.allGroups];
+
         if (this.filterText && this.filterText.trim() !== '') {
             filtered = filtered.filter(group =>
                 group.groupName.toLowerCase().includes(this.filterText.toLowerCase())
             );
         }
+
         if (this.formatFilter && this.formatFilter !== '') {
             filtered = filtered.filter(group => group.format === this.formatFilter);
         }
+
         return filtered;
     }
 
+    // Отрисовка карточек
     renderGroups() {
         const container = this.groupsContainer;
         if (!container) return;
+
         container.innerHTML = '';
         const filteredGroups = this.getFilteredGroups();
 
         if (filteredGroups.length === 0) {
             container.innerHTML = `
                 <div class="col-12 text-center">
-                    <div class="alert alert-info">Групп не найдено. Добавьте первую группу!</div>
+                    <div class="alert alert-info">Групп не найдено</div>
                 </div>
             `;
             return;
@@ -122,16 +152,14 @@ export class MainPage {
         });
     }
 
+    // Добавление группы через POST запрос
     addGroup() {
-        const groups = store.getGroups();
+        const groups = this.allGroups;
 
         if (groups.length === 0) {
-            // Первая группа
             const newGroup = {
-                id: 1,
-                src: "https://cdn-icons-png.flaticon.com/512/1995/1995571.png",
-                groupName: "IU5-31B",
-                specialty: "Веб-разработка",
+                groupName: "Новая группа",
+                specialty: "Помощь с учебой",
                 description: "Помощь с лабораторными работами и домашними заданиями",
                 services: ["Помощь с лабами", "Консультации"],
                 price: 1000,
@@ -143,24 +171,24 @@ export class MainPage {
                 experience: "1 год",
                 startDate: new Date().toISOString().split('T')[0]
             };
-            store.addGroup(newGroup);
-            this.renderGroups();
-            this.showNotification(`✅ Добавлена группа: "${newGroup.groupName}"`);
+
+            ajax.post(stockUrls.createGroup(), newGroup, (data, status) => {
+                if (status === 201) {
+                    this.showNotification(`✅ Добавлена группа: "${data.groupName}"`);
+                    this.getData();
+                } else {
+                    this.showNotification('❌ Ошибка при добавлении группы', true);
+                }
+            });
             return;
         }
 
-        // Берём первую группу за основу
         const firstGroup = groups[0];
-        const newId = Math.max(...groups.map(g => g.id)) + 1;
-
-        // Создаём новую группу на основе первой + копия
-        let mergedGroup = {
-            id: newId,
-            src: firstGroup.src,
+        const newGroup = {
             groupName: `${firstGroup.groupName}+копия`,
             specialty: firstGroup.specialty,
             description: firstGroup.description,
-            services: [...firstGroup.services],
+            services: firstGroup.services,
             price: firstGroup.price,
             format: firstGroup.format,
             rating: firstGroup.rating,
@@ -171,29 +199,35 @@ export class MainPage {
             startDate: new Date().toISOString().split('T')[0]
         };
 
-        // Объединяем новую группу со всеми существующими
-        for (let i = 0; i < groups.length; i++) {
-            mergedGroup = store.merge(mergedGroup, groups[i]);
-        }
-
-        // Добавляем новую объединённую группу в список
-        store.addGroup(mergedGroup);
-        this.renderGroups();
-        this.showNotification(`✅ Добавлена новая группа: "${mergedGroup.groupName}" (объединена со всеми ${groups.length} группами)`);
+        ajax.post(stockUrls.createGroup(), newGroup, (data, status) => {
+            if (status === 201) {
+                this.showNotification(`✅ Добавлена группа: "${data.groupName}"`);
+                this.getData();
+            } else {
+                this.showNotification('❌ Ошибка при добавлении группы', true);
+            }
+        });
     }
 
+    // Удаление группы через DELETE запрос
     deleteGroup(id) {
-        const group = store.getGroups().find(g => g.id === parseInt(id));
-        store.deleteGroup(parseInt(id));
-        this.renderGroups();
-        this.showNotification(`🗑️ Удалена группа: "${group?.groupName || id}"`);
+        ajax.delete(stockUrls.deleteGroup(id), (data, status) => {
+            if (status === 200 || status === 204) {
+                this.showNotification(`🗑️ Группа удалена`);
+                this.getData();
+            } else {
+                this.showNotification('❌ Ошибка при удалении группы', true);
+            }
+        });
     }
 
     filterGroups() {
         const filterInput = document.getElementById('filter-input');
         const formatSelect = document.getElementById('format-filter');
+
         if (filterInput) this.filterText = filterInput.value;
         if (formatSelect) this.formatFilter = formatSelect.value;
+
         this.renderGroups();
     }
 
@@ -209,7 +243,7 @@ export class MainPage {
     render() {
         this.parent.innerHTML = '';
         this.parent.insertAdjacentHTML('beforeend', this.getHTML());
-        this.renderGroups();
+        this.getData();
 
         document.getElementById('add-button')?.addEventListener('click', () => this.addGroup());
         document.getElementById('filter-input')?.addEventListener('input', () => this.filterGroups());

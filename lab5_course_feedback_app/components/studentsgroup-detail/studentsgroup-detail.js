@@ -113,6 +113,7 @@ export class GroupDetailComponent {
     }
 
     render(data) {
+        this.parent.innerHTML = '';
         const html = this.getHTML(data);
         this.parent.insertAdjacentHTML('beforeend', html);
     }
