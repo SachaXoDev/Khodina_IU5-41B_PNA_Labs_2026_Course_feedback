@@ -1,7 +1,5 @@
-// pages/group-form/group-form.js
-
 import { MainPage } from "../main/main.js";
-import { ajax } from "../../modules/ajax.js";
+import { fetchService } from "../../modules/fetch-service.js";
 import { stockUrls } from "../../modules/stockUrls.js";
 
 export class GroupFormPage {
@@ -100,17 +98,19 @@ export class GroupFormPage {
     }
 
     // Загрузка данных для редактирования
-    loadGroupData() {
+    async loadGroupData() {
         if (!this.id) return;
-
-        ajax.get(stockUrls.getGroupById(this.id), (data, status) => {
+        try {
+            const { data, status } = await fetchService.get(stockUrls.getGroupById(this.id));
             if (status === 200 && data) {
                 this.groupData = data;
                 this.fillForm(data);
             } else {
-                this.showNotification('❌ Ошибка загрузки данных группы', 'error');
+                this.showNotification('❌ Ошибка загрузки данных', 'error');
             }
-        });
+        } catch (error) {
+            this.showNotification('❌ Ошибка соединения', 'error');
+        }
     }
 
     // Заполнение формы данными
@@ -166,7 +166,6 @@ export class GroupFormPage {
         return true;
     }
 
-    // Создание новой группы
     updateGroup(formData) {
         ajax.patch(stockUrls.updateGroup(this.id), formData, (data, status) => {
             if (status === 200) {
@@ -180,7 +179,6 @@ export class GroupFormPage {
         });
     }
 
-    // Обновление группы
     updateGroup(formData) {
         ajax.patch(stockUrls.getGroupById(this.id), formData, (data, status) => {
             if (status === 200) {
@@ -192,6 +190,34 @@ export class GroupFormPage {
                 this.showNotification('❌ Ошибка при обновлении группы', 'error');
             }
         });
+    }
+
+    async createGroup(formData) {
+        try {
+            const { data, status } = await fetchService.post(stockUrls.createGroup(), formData);
+            if (status === 201 || status === 200) {
+                this.showNotification('✅ Группа создана!');
+                setTimeout(() => new MainPage(this.parent).render(), 1500);
+            } else {
+                this.showNotification('❌ Ошибка создания', 'error');
+            }
+        } catch (error) {
+            this.showNotification('❌ Ошибка соединения', 'error');
+        }
+    }
+
+    async updateGroup(formData) {
+        try {
+            const { data, status } = await fetchService.patch(stockUrls.updateGroup(this.id), formData);
+            if (status === 200) {
+                this.showNotification('✅ Группа обновлена!');
+                setTimeout(() => new MainPage(this.parent).render(), 1500);
+            } else {
+                this.showNotification('❌ Ошибка обновления', 'error');
+            }
+        } catch (error) {
+            this.showNotification('❌ Ошибка соединения', 'error');
+        }
     }
 
     showNotification(message, type = 'success') {

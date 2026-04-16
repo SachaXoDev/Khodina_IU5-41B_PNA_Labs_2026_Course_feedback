@@ -1,16 +1,31 @@
 {
-  "name": "educational-services",
+  "name": "khodina_iu5-41b_pna_labs_2026_course_feedback",
   "version": "1.0.0",
-  "description": "Образовательные услуги - приложение для управления курсами",
-  "main": "main.js",
+  "description": "Автор: Ходина Александра Павловна ИУ5-41Б",
+  "main": "index.js",
   "scripts": {
-    "start": "live-server --port=3000",
-    "dev": "live-server --port=3000"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": ["education", "courses", "services"],
-  "author": "Sacha Khodina",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SachaXoDev/Khodina_IU5-41B_PNA_Labs_2026_Course_feedback.git"
+  },
+  "keywords": [],
+  "author": "",
   "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SachaXoDev/Khodina_IU5-41B_PNA_Labs_2026_Course_feedback/issues"
+  },
+  "homepage": "https://github.com/SachaXoDev/Khodina_IU5-41B_PNA_Labs_2026_Course_feedback#readme",
+  "devDependencies": {
+    "vite": "^8.0.8"
+  },
   "dependencies": {
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "three": "^0.183.2"
   }
 }

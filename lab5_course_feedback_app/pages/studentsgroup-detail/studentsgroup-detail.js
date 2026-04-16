@@ -1,7 +1,7 @@
 import { GroupDetailComponent } from "../../components/studentsgroup-detail/studentsgroup-detail.js";
 import { ThreeDModelComponent } from "../../components/3d-model/3d-model.js";
 import { MainPage } from "../main/main.js";
-import { ajax } from "../../modules/ajax.js";
+import { fetchService } from "../../modules/fetch-service.js";
 import { stockUrls } from "../../modules/stockUrls.js";
 
 export class GroupDetailPage {
@@ -115,28 +115,31 @@ export class GroupDetailPage {
         `;
     }
 
-    getData() {
-        console.log('1. getData started, id:', this.id);
-        ajax.get(stockUrls.getGroupById(this.id), (data, status) => {
-            console.log('2. ajax callback:', { status, data, hasData: !!data });
+    async getData() {
+        try {
+            const { data, status } = await fetchService.get(stockUrls.getGroupById(this.id));
             if (status === 200 && data) {
-                console.log('3. Условие выполнено, сохраняем данные');
                 this.groupData = data;
-                console.log('4. Вызываем renderData()');
                 this.renderData();
-                console.log('5. Вызываем init3DModel()');
                 this.init3DModel();
                 this.setupComparison();
             } else {
-                console.error('Ошибка: статус не 200 или нет данных', status);
-                this.groupContainer.innerHTML = `
-                    <div class="alert alert-danger">
-                        ❌ Ошибка загрузки данных группы. Возможно, группа была удалена.
-                    </div>
-                `;
+                this.showError();
             }
-        });
-        console.log('6. getData завершил выполнение (асинхронно)');
+        } catch (error) {
+            console.error('Ошибка:', error);
+            this.showError();
+        }
+    }
+
+    showError() {
+        if (this.groupContainer) {
+            this.groupContainer.innerHTML = `
+                <div class="alert alert-danger">
+                    ❌ Ошибка загрузки данных группы
+                </div>
+            `;
+        }
     }
 
     // Отрисовка данных

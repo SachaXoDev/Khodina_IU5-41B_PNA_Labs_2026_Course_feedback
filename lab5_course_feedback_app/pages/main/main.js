@@ -1,7 +1,7 @@
 import { GroupCardComponent } from "../../components/studentsgroup-card/studentsgroup-card.js";
 import { GroupDetailPage } from "../studentsgroup-detail/studentsgroup-detail.js";
 import { GroupFormPage } from "../group-form/group-form.js";
-import { ajax } from "../../modules/ajax.js";
+import { fetchService } from "../../modules/fetch-service.js";
 import { stockUrls } from "../../modules/stockUrls.js";
 
 export class MainPage {
@@ -93,20 +93,19 @@ export class MainPage {
     }
 
     // Получение данных с сервера
-    getData() {
-        ajax.get(stockUrls.getGroups(), (data, status) => {
+    async getData() {
+        try {
+            const { data, status } = await fetchService.get(stockUrls.getGroups());
             if (status === 200 && data && Array.isArray(data)) {
                 this.allGroups = data;
                 this.renderGroups();
             } else {
                 this.showNotification('Ошибка загрузки групп!', true);
-                this.groupsContainer.innerHTML = `
-                    <div class="col-12 text-center">
-                        <div class="alert alert-danger">❌ Ошибка загрузки данных с сервера</div>
-                    </div>
-                `;
             }
-        });
+        } catch (error) {
+            console.error('Ошибка:', error);
+            this.showNotification('Ошибка соединения с сервером!', true);
+        }
     }
 
     // Фильтрация групп
@@ -159,8 +158,8 @@ export class MainPage {
         groupForm.render();
     }
 
-    // Добавление группы через POST запрос
-    addGroup() {
+    // Добавление группы через POST запрос (Fetch API)
+    async addGroup() {
         const groups = this.allGroups;
 
         if (groups.length === 0) {
@@ -179,14 +178,18 @@ export class MainPage {
                 startDate: new Date().toISOString().split('T')[0]
             };
 
-            ajax.post(stockUrls.createGroup(), newGroup, (data, status) => {
-                if (status === 201) {
+            try {
+                const { data, status } = await fetchService.post(stockUrls.createGroup(), newGroup);
+                if (status === 201 || status === 200) {
                     this.showNotification(`✅ Добавлена группа: "${data.groupName}"`);
-                    this.getData();
+                    await this.getData();
                 } else {
                     this.showNotification('❌ Ошибка при добавлении группы', true);
                 }
-            });
+            } catch (error) {
+                console.error('Ошибка добавления:', error);
+                this.showNotification('❌ Ошибка соединения при добавлении группы', true);
+            }
             return;
         }
 
@@ -206,26 +209,33 @@ export class MainPage {
             startDate: new Date().toISOString().split('T')[0]
         };
 
-        ajax.post(stockUrls.createGroup(), newGroup, (data, status) => {
-            if (status === 201) {
+        try {
+            const { data, status } = await fetchService.post(stockUrls.createGroup(), newGroup);
+            if (status === 201 || status === 200) {
                 this.showNotification(`✅ Добавлена группа: "${data.groupName}"`);
-                this.getData();
+                await this.getData();
             } else {
                 this.showNotification('❌ Ошибка при добавлении группы', true);
             }
-        });
+        } catch (error) {
+            console.error('Ошибка добавления:', error);
+            this.showNotification('❌ Ошибка соединения при добавлении группы', true);
+        }
     }
 
     // Удаление группы через DELETE запрос
-    deleteGroup(id) {
-        ajax.delete(stockUrls.deleteGroup(id), (data, status) => {
+    async deleteGroup(id) {
+        try {
+            const { status } = await fetchService.delete(stockUrls.deleteGroup(id));
             if (status === 200 || status === 204) {
-                this.showNotification(`Группа удалена`);
+                this.showNotification(`🗑️ Группа удалена`);
                 this.getData();
             } else {
                 this.showNotification('❌ Ошибка при удалении группы', true);
             }
-        });
+        } catch (error) {
+            this.showNotification('❌ Ошибка соединения', true);
+        }
     }
 
     filterGroups() {

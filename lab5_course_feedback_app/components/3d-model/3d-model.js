@@ -16,7 +16,7 @@ export class ThreeDModelComponent {
         console.log('Инициализация 3D модели компьютера...');
 
         const THREE = await import('three');
-        const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
+        const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls.js');
 
         this.THREE = THREE;
         this.OrbitControls = OrbitControls;
