@@ -15,6 +15,10 @@ export class StockUrls {
         return `${this.baseUrl}/api/groups`;
     }
 
+    updateGroup(id) {
+        return `${this.baseUrl}/api/groups/${id}`;
+    }
+
     deleteGroup(id) {
         return `${this.baseUrl}/api/groups/${id}`;
     }

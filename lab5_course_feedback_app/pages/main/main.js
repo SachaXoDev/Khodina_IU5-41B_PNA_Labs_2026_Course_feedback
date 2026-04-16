@@ -1,5 +1,6 @@
 import { GroupCardComponent } from "../../components/studentsgroup-card/studentsgroup-card.js";
 import { GroupDetailPage } from "../studentsgroup-detail/studentsgroup-detail.js";
+import { GroupFormPage } from "../group-form/group-form.js";
 import { ajax } from "../../modules/ajax.js";
 import { stockUrls } from "../../modules/stockUrls.js";
 
@@ -129,14 +130,13 @@ export class MainPage {
     renderGroups() {
         const container = this.groupsContainer;
         if (!container) return;
-
         container.innerHTML = '';
         const filteredGroups = this.getFilteredGroups();
 
         if (filteredGroups.length === 0) {
             container.innerHTML = `
                 <div class="col-12 text-center">
-                    <div class="alert alert-info">Групп не найдено</div>
+                    <div class="alert alert-info">Групп не найдено. Добавьте первую группу!</div>
                 </div>
             `;
             return;
@@ -147,9 +147,16 @@ export class MainPage {
             groupCard.render(
                 group,
                 this.clickCard.bind(this),
-                this.deleteGroup.bind(this)
+                this.deleteGroup.bind(this),
+                this.editGroup.bind(this)  // Добавляем callback для редактирования
             );
         });
+    }
+
+    // Добавьте метод редактирования
+    editGroup(id) {
+        const groupForm = new GroupFormPage(this.parent, id);
+        groupForm.render();
     }
 
     // Добавление группы через POST запрос
@@ -213,7 +220,7 @@ export class MainPage {
     deleteGroup(id) {
         ajax.delete(stockUrls.deleteGroup(id), (data, status) => {
             if (status === 200 || status === 204) {
-                this.showNotification(`🗑️ Группа удалена`);
+                this.showNotification(`Группа удалена`);
                 this.getData();
             } else {
                 this.showNotification('❌ Ошибка при удалении группы', true);

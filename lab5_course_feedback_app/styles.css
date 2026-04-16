@@ -995,3 +995,16 @@ select.filter-input {
 .merge-section .btn-success:hover {
     background: #0F2A6B;
 }
+
+.btn-warning {
+    background: #3d3bff;
+    color: #ffffff;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    background: #3d3bff;
+    transform: scale(1.05);
+    color: #ffffff;
+}

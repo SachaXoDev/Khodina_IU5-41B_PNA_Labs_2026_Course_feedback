@@ -55,10 +55,13 @@ export class GroupCardComponent {
                             </div>
                             <div class="card-actions">
                                 <button class="btn btn-primary btn-sm view-btn" data-id="${data.id}">
-                                    🔍 Подробнее
+                                    Подробнее
+                                </button>
+                                <button class="btn btn-warning btn-sm edit-btn" data-id="${data.id}">
+                                    Редактировать
                                 </button>
                                 <button class="btn btn-danger btn-sm delete-btn" data-id="${data.id}">
-                                    🗑️ Удалить
+                                    Удалить
                                 </button>
                             </div>
                         </div>
@@ -68,9 +71,11 @@ export class GroupCardComponent {
         `;
     }
 
-    addListeners(data, onView, onDelete) {
+    addListeners(data, onView, onDelete, onEdit) {
         const viewBtn = document.querySelector(`.view-btn[data-id="${data.id}"]`);
         const deleteBtn = document.querySelector(`.delete-btn[data-id="${data.id}"]`);
+        const editBtn = document.querySelector(`.edit-btn[data-id="${data.id}"]`);
+        const compareBtn = document.querySelector(`.compare-toggle-btn[data-id="${data.id}"]`);
 
         if (viewBtn) {
             viewBtn.addEventListener("click", () => onView(data.id));
@@ -78,11 +83,14 @@ export class GroupCardComponent {
         if (deleteBtn) {
             deleteBtn.addEventListener("click", () => onDelete(data.id));
         }
+        if (editBtn) {
+            editBtn.addEventListener("click", () => onEdit(data.id));
+        }
     }
 
-    render(data, onView, onDelete) {
-        const html = this.getHTML(data);
+    render(data, onView, onDelete, onEdit) {
+        const html = this.getHTML(data, true);
         this.parent.insertAdjacentHTML('beforeend', html);
-        this.addListeners(data, onView, onDelete);
+        this.addListeners(data, onView, onDelete, onEdit);
     }
 }
