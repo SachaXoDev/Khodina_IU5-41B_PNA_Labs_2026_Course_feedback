@@ -166,32 +166,6 @@ export class GroupFormPage {
         return true;
     }
 
-    updateGroup(formData) {
-        ajax.patch(stockUrls.updateGroup(this.id), formData, (data, status) => {
-            if (status === 200) {
-                this.showNotification('✅ Группа успешно обновлена!');
-                setTimeout(() => {
-                    new MainPage(this.parent).render();
-                }, 1500);
-            } else {
-                this.showNotification('❌ Ошибка при обновлении группы', 'error');
-            }
-        });
-    }
-
-    updateGroup(formData) {
-        ajax.patch(stockUrls.getGroupById(this.id), formData, (data, status) => {
-            if (status === 200) {
-                this.showNotification('✅ Группа успешно обновлена!');
-                setTimeout(() => {
-                    new MainPage(this.parent).render();
-                }, 1500);
-            } else {
-                this.showNotification('❌ Ошибка при обновлении группы', 'error');
-            }
-        });
-    }
-
     async createGroup(formData) {
         try {
             const { data, status } = await fetchService.post(stockUrls.createGroup(), formData);

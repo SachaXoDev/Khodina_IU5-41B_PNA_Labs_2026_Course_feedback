@@ -142,7 +142,6 @@ export class GroupDetailPage {
         }
     }
 
-    // Отрисовка данных
     renderData() {
         console.log('>>> renderData: НАЧАЛО функции');
         console.log('>>> renderData: this.groupData =', this.groupData);
@@ -195,17 +194,18 @@ export class GroupDetailPage {
         const compareSelect = document.getElementById('compare-group-select');
         const compareResult = document.getElementById('compare-result');
 
-        // Загружаем список групп для сравнения
-        ajax.get(stockUrls.getGroups(), (data, status) => {
+        fetchService.get(stockUrls.getGroups()).then(({ data, status }) => {
             if (status === 200 && data && Array.isArray(data)) {
                 const groups = data.filter(g => g.id !== this.id);
                 compareSelect.innerHTML = '<option value="">Выберите группу для сравнения...</option>' +
                     groups.map(g => `<option value="${g.id}">${g.groupName} (${g.specialty})</option>`).join('');
             }
+        }).catch(error => {
+            console.error('Ошибка загрузки групп для сравнения:', error);
         });
 
         if (compareBtn && compareSelect) {
-            compareBtn.addEventListener('click', () => {
+            compareBtn.addEventListener('click', async () => {
                 const selectedId = compareSelect.value;
                 if (!selectedId) {
                     compareResult.style.display = 'block';
@@ -213,57 +213,48 @@ export class GroupDetailPage {
                     return;
                 }
 
-                // Загружаем данные выбранной группы для сравнения
-                ajax.get(stockUrls.getGroupById(selectedId), (compareData, compareStatus) => {
-                    if (compareStatus === 200 && compareData && this.groupData) {
-                        const compareGroup = compareData;
+                try {
+                    const { data: compareData, status } = await fetchService.get(stockUrls.getGroupById(selectedId));
+                    if (status === 200 && compareData && this.groupData) {
                         const differences = [];
 
-                        if (this.groupData.groupName !== compareGroup.groupName)
-                            differences.push({ field: 'Название', current: this.groupData.groupName, compare: compareGroup.groupName });
-                        if (this.groupData.specialty !== compareGroup.specialty)
-                            differences.push({ field: 'Специализация', current: this.groupData.specialty, compare: compareGroup.specialty });
-                        if (this.groupData.price !== compareGroup.price)
-                            differences.push({ field: 'Цена (₽/час)', current: this.groupData.price, compare: compareGroup.price });
-                        if (this.groupData.rating !== compareGroup.rating)
-                            differences.push({ field: 'Рейтинг', current: `${this.groupData.rating}/5`, compare: `${compareGroup.rating}/5` });
-                        if (this.groupData.format !== compareGroup.format)
-                            differences.push({ field: 'Формат', current: this.groupData.format, compare: compareGroup.format });
-                        if (this.groupData.students !== compareGroup.students)
-                            differences.push({ field: 'Студентов', current: this.groupData.students, compare: compareGroup.students });
-                        if (this.groupData.teacher !== compareGroup.teacher)
-                            differences.push({ field: 'Преподаватель', current: this.groupData.teacher, compare: compareGroup.teacher });
+                        if (this.groupData.groupName !== compareData.groupName)
+                            differences.push({ field: 'Название', current: this.groupData.groupName, compare: compareData.groupName });
+                        if (this.groupData.specialty !== compareData.specialty)
+                            differences.push({ field: 'Специализация', current: this.groupData.specialty, compare: compareData.specialty });
+                        if (this.groupData.price !== compareData.price)
+                            differences.push({ field: 'Цена (₽/час)', current: this.groupData.price, compare: compareData.price });
+                        if (this.groupData.rating !== compareData.rating)
+                            differences.push({ field: 'Рейтинг', current: `${this.groupData.rating}/5`, compare: `${compareData.rating}/5` });
+                        if (this.groupData.format !== compareData.format)
+                            differences.push({ field: 'Формат', current: this.groupData.format, compare: compareData.format });
+                        if (this.groupData.students !== compareData.students)
+                            differences.push({ field: 'Студентов', current: this.groupData.students, compare: compareData.students });
+                        if (this.groupData.teacher !== compareData.teacher)
+                            differences.push({ field: 'Преподаватель', current: this.groupData.teacher, compare: compareData.teacher });
 
-                        let resultHtml = '';
-
-                        if (differences.length === 0) {
-                            resultHtml = `
-                                <div class="alert alert-success">
-                                    <strong>✅ ГРУППЫ ИДЕНТИЧНЫ!</strong><br>
-                                    Все характеристики "${this.groupData.groupName}" и "${compareGroup.groupName}" совпадают.
-                                </div>
-                            `;
-                        } else {
-                            resultHtml = `
-                                <div class="alert alert-info">
-                                    <strong>❌ НАЙДЕНЫ РАЗЛИЧИЯ:</strong>
-                                    <table class="table table-sm mt-2 mb-0">
-                                        <thead>
-                                            <tr><th>Характеристика</th><th>${this.groupData.groupName}</th><th>${compareGroup.groupName}</th></tr>
-                                        </thead>
-                                        <tbody>
-                                            ${differences.map(d => `<tr><td><strong>${d.field}</strong></td><td>${d.current}</td><td>${d.compare}</td></tr>`).join('')}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            `;
-                        }
+                        let resultHtml = differences.length === 0
+                            ? `<div class="alert alert-success"><strong>✅ ГРУППЫ ИДЕНТИЧНЫ!</strong><br>Все характеристики совпадают.</div>`
+                            : `<div class="alert alert-info">
+                                <strong>❌ НАЙДЕНЫ РАЗЛИЧИЯ:</strong>
+                                <table class="table table-sm mt-2 mb-0">
+                                    <thead>
+                                        <tr><th>Характеристика</th><th>${this.groupData.groupName}</th><th>${compareData.groupName}</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        ${differences.map(d => `<tr><td><strong>${d.field}</strong></td><td>${d.current}</td><td>${d.compare}</td>`).join('')}
+                                    </tbody>
+                                </table>
+                            </div>`;
 
                         compareResult.style.display = 'block';
                         compareResult.innerHTML = resultHtml;
-                        compareResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
-                });
+                } catch (error) {
+                    console.error('Ошибка при сравнении:', error);
+                    compareResult.style.display = 'block';
+                    compareResult.innerHTML = '<div class="alert alert-danger">❌ Ошибка при загрузке данных для сравнения</div>';
+                }
             });
         }
     }
