@@ -68,14 +68,17 @@ export class MainPage {
                     <div class="row">
                         <div class="col-md-5">
                             <input type="text" id="filter-input" class="filter-input"
-                                   placeholder="🔍 Поиск по названию группы..." autocomplete="off">
+                                   placeholder="Поиск по названию группы..." autocomplete="off">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <select id="format-filter" class="filter-input">
                                 ${formatOptions}
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
+                            <button id="search-button" class="btn btn-primary w-100">Найти</button>
+                        </div>
+                        <div class="col-md-2">
                             <button id="add-button" class="btn btn-success w-100">+ Добавить</button>
                         </div>
                     </div>
@@ -92,7 +95,6 @@ export class MainPage {
         `;
     }
 
-    // Получение данных с сервера
     async getData() {
         try {
             const { data, status } = await fetchService.get(stockUrls.getGroups());
@@ -101,6 +103,11 @@ export class MainPage {
                 this.renderGroups();
             } else {
                 this.showNotification('Ошибка загрузки групп!', true);
+                this.groupsContainer.innerHTML = `
+                    <div class="col-12 text-center">
+                        <div class="alert alert-danger">❌ Ошибка загрузки данных с сервера</div>
+                    </div>
+                `;
             }
         } catch (error) {
             console.error('Ошибка:', error);
@@ -108,7 +115,6 @@ export class MainPage {
         }
     }
 
-    // Фильтрация групп
     getFilteredGroups() {
         let filtered = [...this.allGroups];
 
@@ -125,7 +131,6 @@ export class MainPage {
         return filtered;
     }
 
-    // Отрисовка карточек
     renderGroups() {
         const container = this.groupsContainer;
         if (!container) return;
@@ -147,98 +152,22 @@ export class MainPage {
                 group,
                 this.clickCard.bind(this),
                 this.deleteGroup.bind(this),
-                this.editGroup.bind(this)  // Добавляем callback для редактирования
+                this.editGroup.bind(this)
             );
         });
     }
 
-    // Добавьте метод редактирования
+    addGroupPage() {
+        const groupForm = new GroupFormPage(this.parent, null);
+        groupForm.render();
+    }
+
     editGroup(id) {
         const groupForm = new GroupFormPage(this.parent, id);
         groupForm.render();
     }
 
-    // Добавление группы через POST запрос (Fetch API)
-    async addGroup() {
-        const groups = this.allGroups;
-
-        if (groups.length === 0) {
-            const newGroup = {
-                groupName: "Новая группа",
-                specialty: "Помощь с учебой",
-                description: "Помощь с лабораторными работами и домашними заданиями",
-                services: ["Помощь с лабами", "Консультации"],
-                price: 1000,
-                format: "Онлайн",
-                rating: 4.5,
-                students: 0,
-                teacher: "Новый куратор",
-                contact: "@new_group",
-                experience: "1 год",
-                startDate: new Date().toISOString().split('T')[0]
-            };
-
-            try {
-                const { data, status } = await fetchService.post(stockUrls.createGroup(), newGroup);
-                if (status === 201 || status === 200) {
-                    this.showNotification(`✅ Добавлена группа: "${data.groupName}"`);
-                    await this.getData();
-                } else {
-                    this.showNotification('❌ Ошибка при добавлении группы', true);
-                }
-            } catch (error) {
-                console.error('Ошибка добавления:', error);
-                this.showNotification('❌ Ошибка соединения при добавлении группы', true);
-            }
-            return;
-        }
-
-        const firstGroup = groups[0];
-        const newGroup = {
-            groupName: `${firstGroup.groupName}+копия`,
-            specialty: firstGroup.specialty,
-            description: firstGroup.description,
-            services: firstGroup.services,
-            price: firstGroup.price,
-            format: firstGroup.format,
-            rating: firstGroup.rating,
-            students: firstGroup.students,
-            teacher: firstGroup.teacher,
-            contact: firstGroup.contact,
-            experience: firstGroup.experience,
-            startDate: new Date().toISOString().split('T')[0]
-        };
-
-        try {
-            const { data, status } = await fetchService.post(stockUrls.createGroup(), newGroup);
-            if (status === 201 || status === 200) {
-                this.showNotification(`✅ Добавлена группа: "${data.groupName}"`);
-                await this.getData();
-            } else {
-                this.showNotification('❌ Ошибка при добавлении группы', true);
-            }
-        } catch (error) {
-            console.error('Ошибка добавления:', error);
-            this.showNotification('❌ Ошибка соединения при добавлении группы', true);
-        }
-    }
-
-    // Удаление группы через DELETE запрос
-    async deleteGroup(id) {
-        try {
-            const { status } = await fetchService.delete(stockUrls.deleteGroup(id));
-            if (status === 200 || status === 204) {
-                this.showNotification(`🗑️ Группа удалена`);
-                this.getData();
-            } else {
-                this.showNotification('❌ Ошибка при удалении группы', true);
-            }
-        } catch (error) {
-            this.showNotification('❌ Ошибка соединения', true);
-        }
-    }
-
-    filterGroups() {
+    performSearch() {
         const filterInput = document.getElementById('filter-input');
         const formatSelect = document.getElementById('format-filter');
 
@@ -246,6 +175,36 @@ export class MainPage {
         if (formatSelect) this.formatFilter = formatSelect.value;
 
         this.renderGroups();
+    }
+
+    resetFilters() {
+        this.filterText = '';
+        this.formatFilter = '';
+
+        const filterInput = document.getElementById('filter-input');
+        const formatSelect = document.getElementById('format-filter');
+
+        if (filterInput) filterInput.value = '';
+        if (formatSelect) formatSelect.value = '';
+
+        this.renderGroups();
+    }
+
+    async deleteGroup(id) {
+        if (confirm('Вы уверены, что хотите удалить эту группу?')) {
+            try {
+                const { status } = await fetchService.delete(stockUrls.deleteGroup(id));
+                if (status === 200 || status === 204) {
+                    this.showNotification('✅ Группа удалена');
+                    await this.getData();
+                } else {
+                    this.showNotification('❌ Ошибка при удалении группы', true);
+                }
+            } catch (error) {
+                console.error('Ошибка удаления:', error);
+                this.showNotification('❌ Ошибка соединения', true);
+            }
+        }
     }
 
     clickCard(id) {
@@ -262,9 +221,14 @@ export class MainPage {
         this.parent.insertAdjacentHTML('beforeend', this.getHTML());
         this.getData();
 
-        document.getElementById('add-button')?.addEventListener('click', () => this.addGroup());
-        document.getElementById('filter-input')?.addEventListener('input', () => this.filterGroups());
-        document.getElementById('format-filter')?.addEventListener('change', () => this.filterGroups());
+        document.getElementById('add-button')?.addEventListener('click', () => this.addGroupPage());
+
+        document.getElementById('search-button')?.addEventListener('click', () => this.performSearch());
+
+        document.getElementById('filter-input')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.performSearch();
+        });
+
         document.getElementById('home-button')?.addEventListener('click', () => this.goHome());
     }
 }

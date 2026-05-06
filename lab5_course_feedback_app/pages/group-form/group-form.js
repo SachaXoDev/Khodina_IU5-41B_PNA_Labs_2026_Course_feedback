@@ -5,7 +5,7 @@ import { stockUrls } from "../../modules/stockUrls.js";
 export class GroupFormPage {
     constructor(parent, id = null) {
         this.parent = parent;
-        this.id = id; // Если id есть - режим редактирования
+        this.id = id;
         this.groupData = null;
     }
 
@@ -97,7 +97,6 @@ export class GroupFormPage {
         `;
     }
 
-    // Загрузка данных для редактирования
     async loadGroupData() {
         if (!this.id) return;
         try {
@@ -113,7 +112,6 @@ export class GroupFormPage {
         }
     }
 
-    // Заполнение формы данными
     fillForm(data) {
         document.getElementById('groupName').value = data.groupName || '';
         document.getElementById('specialty').value = data.specialty || '';
@@ -128,7 +126,6 @@ export class GroupFormPage {
         document.getElementById('services').value = (data.services || []).join(', ');
     }
 
-    // Сбор данных из формы
     getFormData() {
         const servicesStr = document.getElementById('services').value;
         const services = servicesStr ? servicesStr.split(',').map(s => s.trim()) : [];
@@ -149,7 +146,6 @@ export class GroupFormPage {
         };
     }
 
-    // Валидация формы
     validateForm(data) {
         if (!data.groupName) {
             this.showNotification('❌ Введите название группы', 'error');
