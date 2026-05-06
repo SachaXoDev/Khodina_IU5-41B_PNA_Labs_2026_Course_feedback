@@ -23,7 +23,7 @@ export class ThreeDModelComponent {
 
         this.setupScene();
         this.setupLights();
-        this.createComputerModel(); // Создаем модель компьютера
+        this.createComputerModel();
 
         this.animate();
 

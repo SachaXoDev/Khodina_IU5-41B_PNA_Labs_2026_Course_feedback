@@ -1,5 +1,3 @@
-// pages/group-form/group-form.js
-
 import { MainPage } from "../main/main.js";
 import { ajax } from "../../modules/ajax.js";
 import { stockUrls } from "../../modules/stockUrls.js";
@@ -7,7 +5,7 @@ import { stockUrls } from "../../modules/stockUrls.js";
 export class GroupFormPage {
     constructor(parent, id = null) {
         this.parent = parent;
-        this.id = id; // Если id есть - режим редактирования
+        this.id = id;
         this.groupData = null;
     }
 
@@ -28,67 +26,68 @@ export class GroupFormPage {
                                 <form id="group-form">
                                     <div class="mb-3">
                                         <label for="groupName" class="form-label">Название группы *</label>
-                                        <input type="text" class="form-control" id="groupName" required>
+                                        <input type="text" class="form-control" id="groupName" ${isEdit ? '' : 'value="Новая группа"'}>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="specialty" class="form-label">Специальность *</label>
-                                        <input type="text" class="form-control" id="specialty" required>
+                                        <input type="text" class="form-control" id="specialty" ${isEdit ? '' : 'value="Помощь с учебой"'}>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="description" class="form-label">Описание</label>
-                                        <textarea class="form-control" id="description" rows="3"></textarea>
+                                        <textarea class="form-control" id="description" rows="3">${isEdit ? '' : 'Помощь с лабораторными работами и домашними заданиями'}</textarea>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="price" class="form-label">Цена (₽/час) *</label>
-                                        <input type="number" class="form-control" id="price" required>
+                                        <input type="number" class="form-control" id="price" ${isEdit ? '' : 'value="1000"'}>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="format" class="form-label">Формат *</label>
+                                        <label for="format" class="form-label">Формат</label>
                                         <select class="form-control" id="format">
-                                            <option value="Онлайн">Онлайн</option>
+                                            <option value="Онлайн" selected>Онлайн</option>
                                             <option value="Офлайн">Офлайн</option>
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="rating" class="form-label">Рейтинг</label>
-                                        <input type="number" step="0.1" min="0" max="5" class="form-control" id="rating">
+                                        <label for="rating" class="form-label">Рейтинг (0-5)</label>
+                                        <input type="number" step="0.1" min="0" max="5" class="form-control" id="rating" value="4.5">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="students" class="form-label">Количество студентов</label>
-                                        <input type="number" class="form-control" id="students">
+                                        <input type="number" class="form-control" id="students" value="0">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="teacher" class="form-label">Преподаватель</label>
-                                        <input type="text" class="form-control" id="teacher">
+                                        <input type="text" class="form-control" id="teacher" value="Новый куратор">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="contact" class="form-label">Контакт (Telegram)</label>
-                                        <input type="text" class="form-control" id="contact">
+                                        <input type="text" class="form-control" id="contact" value="@new_group">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="experience" class="form-label">Опыт работы</label>
-                                        <input type="text" class="form-control" id="experience">
+                                        <input type="text" class="form-control" id="experience" value="1 год">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="services" class="form-label">Услуги (через запятую)</label>
-                                        <input type="text" class="form-control" id="services" placeholder="Например: JavaScript, React, Node.js">
+                                        <input type="text" class="form-control" id="services" placeholder="Например: JavaScript, React, Node.js" value="Помощь с лабами, Консультации">
+                                    </div>
+
+                                    <div class="alert alert-warning mt-3">
+                                        <small>Функция сохранения будет доступна в Лабораторной работе №6.</small>
                                     </div>
 
                                     <div class="d-flex gap-2">
-                                        <button type="submit" class="btn btn-primary flex-grow-1">
-                                            ${isEdit ? 'Сохранить изменения' : 'Создать группу'}
-                                        </button>
-                                        <button type="button" id="cancel-button" class="btn btn-secondary">❌ Отмена</button>
+                                        <button type="button" id="cancel-button" class="btn btn-secondary flex-grow-1">Назад</button>
                                     </div>
                                 </form>
                             </div>
@@ -99,7 +98,6 @@ export class GroupFormPage {
         `;
     }
 
-    // Загрузка данных для редактирования
     loadGroupData() {
         if (!this.id) return;
 
@@ -107,13 +105,13 @@ export class GroupFormPage {
             if (status === 200 && data) {
                 this.groupData = data;
                 this.fillForm(data);
+
             } else {
-                this.showNotification('❌ Ошибка загрузки данных группы', 'error');
+                this.showNotification('Ошибка загрузки данных группы', 'error');
             }
         });
     }
 
-    // Заполнение формы данными
     fillForm(data) {
         document.getElementById('groupName').value = data.groupName || '';
         document.getElementById('specialty').value = data.specialty || '';
@@ -126,72 +124,6 @@ export class GroupFormPage {
         document.getElementById('contact').value = data.contact || '';
         document.getElementById('experience').value = data.experience || '';
         document.getElementById('services').value = (data.services || []).join(', ');
-    }
-
-    // Сбор данных из формы
-    getFormData() {
-        const servicesStr = document.getElementById('services').value;
-        const services = servicesStr ? servicesStr.split(',').map(s => s.trim()) : [];
-
-        return {
-            groupName: document.getElementById('groupName').value,
-            specialty: document.getElementById('specialty').value,
-            description: document.getElementById('description').value,
-            price: parseInt(document.getElementById('price').value) || 0,
-            format: document.getElementById('format').value,
-            rating: parseFloat(document.getElementById('rating').value) || 5,
-            students: parseInt(document.getElementById('students').value) || 0,
-            teacher: document.getElementById('teacher').value,
-            contact: document.getElementById('contact').value,
-            experience: document.getElementById('experience').value,
-            services: services,
-            src: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-        };
-    }
-
-    // Валидация формы
-    validateForm(data) {
-        if (!data.groupName) {
-            this.showNotification('❌ Введите название группы', 'error');
-            return false;
-        }
-        if (!data.specialty) {
-            this.showNotification('❌ Введите специальность', 'error');
-            return false;
-        }
-        if (!data.price || data.price <= 0) {
-            this.showNotification('❌ Введите корректную цену', 'error');
-            return false;
-        }
-        return true;
-    }
-
-    // Создание новой группы
-    updateGroup(formData) {
-        ajax.patch(stockUrls.updateGroup(this.id), formData, (data, status) => {
-            if (status === 200) {
-                this.showNotification('✅ Группа успешно обновлена!');
-                setTimeout(() => {
-                    new MainPage(this.parent).render();
-                }, 1500);
-            } else {
-                this.showNotification('❌ Ошибка при обновлении группы', 'error');
-            }
-        });
-    }
-
-    // Обновление группы
-    updateGroup(formData) {
-        ajax.patch(stockUrls.getGroupById(this.id), formData, (data, status) => {
-            if (status === 200) {
-                this.showNotification('✅ Группа успешно обновлена!');
-                setTimeout(() => {
-                    new MainPage(this.parent).render();
-                }, 1500);
-            } else {
-                this.showNotification('❌ Ошибка при обновлении группы', 'error');
-            }
-        });
     }
 
     showNotification(message, type = 'success') {
@@ -215,22 +147,8 @@ export class GroupFormPage {
     }
 
     setupEventListeners() {
-        const form = document.getElementById('group-form');
         const cancelBtn = document.getElementById('cancel-button');
         const homeBtn = document.getElementById('home-button');
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = this.getFormData();
-
-            if (this.validateForm(formData)) {
-                if (this.id) {
-                    this.updateGroup(formData);
-                } else {
-                    this.createGroup(formData);
-                }
-            }
-        });
 
         cancelBtn?.addEventListener('click', () => {
             new MainPage(this.parent).render();

@@ -35,7 +35,7 @@ export class GroupDetailPage {
         return `
             <div class="header">
                 <div class="container">
-                    <h1>📖 Детали группы</h1>
+                    <h1>Детали группы</h1>
                     <button id="home-button" class="btn btn-home">Домой</button>
                 </div>
             </div>
@@ -97,7 +97,7 @@ export class GroupDetailPage {
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <button id="compare-btn" class="btn btn-primary w-100">🔍 Сравнить</button>
+                                        <button id="compare-btn" class="btn btn-primary w-100">Сравнить</button>
                                     </div>
                                 </div>
                                 <div id="compare-result" class="mt-3" style="display: none;"></div>
@@ -139,7 +139,6 @@ export class GroupDetailPage {
         console.log('6. getData завершил выполнение (асинхронно)');
     }
 
-    // Отрисовка данных
     renderData() {
         console.log('>>> renderData: НАЧАЛО функции');
         console.log('>>> renderData: this.groupData =', this.groupData);
@@ -192,7 +191,6 @@ export class GroupDetailPage {
         const compareSelect = document.getElementById('compare-group-select');
         const compareResult = document.getElementById('compare-result');
 
-        // Загружаем список групп для сравнения
         ajax.get(stockUrls.getGroups(), (data, status) => {
             if (status === 200 && data && Array.isArray(data)) {
                 const groups = data.filter(g => g.id !== this.id);
@@ -210,7 +208,6 @@ export class GroupDetailPage {
                     return;
                 }
 
-                // Загружаем данные выбранной группы для сравнения
                 ajax.get(stockUrls.getGroupById(selectedId), (compareData, compareStatus) => {
                     if (compareStatus === 200 && compareData && this.groupData) {
                         const compareGroup = compareData;

@@ -23,16 +23,10 @@ class Ajax {
      * @param {function} callback - Функция обратного вызова (data, status)
      */
     post(url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        }).then(res => res.json().then(data => callback(data, res.status))).catch(err => callback(err, 0));
     }
 
     /**
@@ -42,16 +36,10 @@ class Ajax {
      * @param {function} callback - Функция обратного вызова (data, status)
      */
     patch(url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('PATCH', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
+        fetch(url, {
+            method: 'PATCH',
+            body: JSON.stringify(data)
+        }).then(res => res.json().then(data => callback(data, res.status))).catch(err => callback(err, 0));
     }
 
     /**
