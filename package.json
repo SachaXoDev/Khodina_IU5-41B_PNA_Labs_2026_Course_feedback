@@ -1,0 +1,30 @@
+{
+  "name": "khodina_iu5-41b_pna_labs_2026_course_feedback",
+  "version": "1.0.0",
+  "description": "Автор: Ходина Александра Павловна ИУ5-41Б",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SachaXoDev/Khodina_IU5-41B_PNA_Labs_2026_Course_feedback.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SachaXoDev/Khodina_IU5-41B_PNA_Labs_2026_Course_feedback/issues"
+  },
+  "homepage": "https://github.com/SachaXoDev/Khodina_IU5-41B_PNA_Labs_2026_Course_feedback#readme",
+  "devDependencies": {
+    "vite": "^8.0.8"
+  },
+  "dependencies": {
+    "three": "^0.183.2"
+  }
+}
