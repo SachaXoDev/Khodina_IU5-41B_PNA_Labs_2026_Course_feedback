@@ -4,23 +4,23 @@ export class StockUrls {
     }
 
     getGroups() {
-        return `${this.baseUrl}/api/groups`;
+        return `${this.baseUrl}/api/group-students`;
     }
 
     getGroupById(id) {
-        return `${this.baseUrl}/api/groups/${id}`;
+        return `${this.baseUrl}/api/group-students/${id}`;
     }
 
     createGroup() {
-        return `${this.baseUrl}/api/groups`;
+        return `${this.baseUrl}/api/group-students`;
     }
 
     updateGroup(id) {
-        return `${this.baseUrl}/api/groups/${id}`;
+        return `${this.baseUrl}/api/group-students/${id}`;
     }
 
     deleteGroup(id) {
-        return `${this.baseUrl}/api/groups/${id}`;
+        return `${this.baseUrl}/api/group-students/${id}`;
     }
 }
 
