@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="66a928de-5649-41ab-8607-9e17664cf93e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab5_course_feedback_app/components/studentsgroup-card/studentsgroup-card.js" beforeDir="false" afterPath="$PROJECT_DIR$/lab5_course_feedback_app/components/studentsgroup-card/studentsgroup-card.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab5_course_feedback_app/modules/stockUrls.js" beforeDir="false" afterPath="$PROJECT_DIR$/lab5_course_feedback_app/modules/stockUrls.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lab5_course_feedback_app/pages/main/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/lab5_course_feedback_app/pages/main/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab5_course_feedback_app/pages/studentsgroup-detail/studentsgroup-detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/lab5_course_feedback_app/pages/studentsgroup-detail/studentsgroup-detail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab5_course_feedback_app/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/lab5_course_feedback_app/styles.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,17 +37,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "lab6__fetch__vite",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/sachaxodina/Khodina_IU5-41B_PNA_Labs_2026_Course_feedback"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;lab5__ajax__api__&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/sachaxodina/Khodina_IU5-41B_PNA_Labs_2026_Course_feedback&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="Khodina_IU5-41B_PNA_Labs_2026_Course_feedback" />

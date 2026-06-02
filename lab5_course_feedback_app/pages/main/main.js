@@ -1,6 +1,6 @@
 import { GroupCardComponent } from "../../components/studentsgroup-card/studentsgroup-card.js";
-import { GroupDetailPage } from "../studentsgroup-detail/studentsgroup-detail.js";
-import { GroupFormPage } from "../group-form/group-form.js";
+import { GroupDetailPage } from "../student_groups-detail/student_groups-detail.js";
+import { GroupFormPage } from "../student_groups-form/student_groups-form.js";
 import { ajax } from "../../modules/ajax.js";
 import { stockUrls } from "../../modules/stockUrls.js";
 
@@ -187,16 +187,14 @@ export class MainPage {
     }
 
     deleteGroup(id) {
-        if (confirm('Вы уверены, что хотите удалить эту группу?')) {
-            ajax.delete(stockUrls.deleteGroup(id), (data, status) => {
-                if (status === 200 || status === 204) {
-                    this.showNotification('✅ Группа удалена');
-                    this.getData();
-                } else {
-                    this.showNotification('❌ Ошибка при удалении группы', true);
-                }
-            });
-        }
+        ajax.delete(stockUrls.deleteGroup(id), (data, status) => {
+            if (status === 200 || status === 204) {
+                this.showNotification('Группа удалена');
+                this.getData();
+            } else {
+                this.showNotification('❌ Ошибка при удалении группы', true);
+            }
+        });
     }
 
     clickCard(id) {
