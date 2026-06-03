@@ -188,7 +188,7 @@ export class MainPage {
 
     deleteGroup(id) {
         ajax.delete(stockUrls.deleteGroup(id), (data, status) => {
-            if (status === 200 || status === 204) {
+            if (status === 204) {
                 this.showNotification('Группа удалена');
                 this.getData();
             } else {

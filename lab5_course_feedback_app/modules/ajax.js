@@ -54,7 +54,11 @@ class Ajax {
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
+                if (xhr.status === 204) {
+                    callback(null, 204);  // ← Добавить обработку 204
+                } else {
+                    this._handleResponse(xhr, callback);
+                }
             }
         };
     }
